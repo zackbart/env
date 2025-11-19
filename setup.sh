@@ -3,8 +3,8 @@
 # macOS Setup Script for M5 Mac
 # This script installs Homebrew, version managers, and essential apps/tools
 
-set -e  # Exit on error
 set -u  # Exit on undefined variable
+# Note: We don't use set -e so the script continues if individual apps fail
 
 # Colors for output
 RED='\033[0;31m'
@@ -101,7 +101,7 @@ fi
 log_info "Installing GUI applications..."
 
 GUI_APPS=(
-    "app-cleaner"
+    "appcleaner"
     "android-studio"
     "clop"
     "cursor"
@@ -109,7 +109,7 @@ GUI_APPS=(
     "docker"
     "ghostty"
     "handbrake"
-    "hidden-bar"
+    "hiddenbar"
     "localsend"
     "obs"
     "obsidian"
@@ -125,11 +125,15 @@ GUI_APPS=(
 log_warning "Xcode must be installed manually via App Store or 'xcode-select --install'"
 
 for app in "${GUI_APPS[@]}"; do
-    if brew list --cask "$app" &> /dev/null; then
+    if brew list --cask "$app" &> /dev/null 2>&1; then
         log_info "$app is already installed, skipping..."
     else
         log_info "Installing $app..."
-        brew install --cask "$app" || log_warning "Failed to install $app (may require manual installation)"
+        if brew install --cask "$app" 2>&1; then
+            log_success "$app installed successfully"
+        else
+            log_warning "Failed to install $app (may require manual installation or may not be available)"
+        fi
     fi
 done
 
