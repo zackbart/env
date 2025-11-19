@@ -44,6 +44,21 @@ fi
 log_info "Starting macOS setup for M5 Mac..."
 
 # ============================================================================
+# Xcode Command Line Tools Check
+# ============================================================================
+log_info "Checking for Xcode Command Line Tools..."
+
+if ! xcode-select -p &> /dev/null; then
+    log_warning "Xcode Command Line Tools not found."
+    log_info "Installing Xcode Command Line Tools (this may take a while)..."
+    xcode-select --install
+    log_info "Please complete the Xcode Command Line Tools installation, then run this script again."
+    exit 0
+else
+    log_success "Xcode Command Line Tools are installed"
+fi
+
+# ============================================================================
 # Homebrew Installation
 # ============================================================================
 log_info "Checking for Homebrew..."
