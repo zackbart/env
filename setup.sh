@@ -207,6 +207,38 @@ else
     fi
 fi
 
+# Install gh (GitHub CLI)
+if brew list gh &> /dev/null 2>&1; then
+    log_info "gh (GitHub CLI) is already installed, skipping..."
+else
+    if verify_formula_exists "gh"; then
+        log_info "Installing gh (GitHub CLI)..."
+        if brew install gh 2>&1; then
+            log_success "gh (GitHub CLI) installed"
+        else
+            log_warning "Failed to install gh"
+        fi
+    else
+        log_warning "gh formula not found in Homebrew"
+    fi
+fi
+
+# Install ngrok
+if brew list ngrok &> /dev/null 2>&1; then
+    log_info "ngrok is already installed, skipping..."
+else
+    if verify_formula_exists "ngrok"; then
+        log_info "Installing ngrok..."
+        if brew install ngrok 2>&1; then
+            log_success "ngrok installed"
+        else
+            log_warning "Failed to install ngrok"
+        fi
+    else
+        log_warning "ngrok formula not found in Homebrew"
+    fi
+fi
+
 # ============================================================================
 # Post-installation
 # ============================================================================

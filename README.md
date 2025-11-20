@@ -51,6 +51,8 @@ cd ~/env-setup && chmod +x setup.sh && ./setup.sh
 4. **Installs CLI Tools**:
    - bottom (btm) - System monitor
    - lazydocker - Docker management tool
+   - gh - GitHub CLI
+   - ngrok - Secure tunneling tool
 
 ## Usage
 

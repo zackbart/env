@@ -50,6 +50,8 @@ All applications are verified before installation:
 ### 5. CLI Tools (Homebrew Formulas)
 - ✅ `bottom` - System monitor (btm)
 - ✅ `lazydocker` - Docker management tool
+- ✅ `gh` - GitHub CLI
+- ✅ `ngrok` - Secure tunneling tool
 
 ## Verification Script
 

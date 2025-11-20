@@ -44,6 +44,8 @@ GUI_APPS=(
 CLI_TOOLS=(
     "bottom"
     "lazydocker"
+    "gh"
+    "ngrok"
 )
 
 echo "🔎 Checking GUI applications (casks)..."
