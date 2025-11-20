@@ -2,6 +2,20 @@
 
 A robust setup script for configuring a new M5 Mac with essential development tools and applications.
 
+## Quick Start (One-Liner)
+
+Paste this into your terminal to clone and run the setup script:
+
+```bash
+git clone https://github.com/zackbart/env.git ~/env-setup && cd ~/env-setup && chmod +x setup.sh && ./setup.sh
+```
+
+Or if you already have the repo cloned:
+
+```bash
+cd ~/env-setup && chmod +x setup.sh && ./setup.sh
+```
+
 ## What This Script Does
 
 1. **Installs Homebrew** - Package manager for macOS
