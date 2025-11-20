@@ -82,6 +82,18 @@ fi
 log_info "Updating Homebrew..."
 brew update
 
+# Function to verify if a cask exists
+verify_cask_exists() {
+    local cask_name=$1
+    brew info --cask "$cask_name" &> /dev/null 2>&1
+}
+
+# Function to verify if a formula exists
+verify_formula_exists() {
+    local formula_name=$1
+    brew info "$formula_name" &> /dev/null 2>&1
+}
+
 # ============================================================================
 # Version Managers
 # ============================================================================
@@ -134,20 +146,24 @@ GUI_APPS=(
     "vlc"
     "wireguard"
     "twingate"
+    "xcode"
 )
-
-# Note: Xcode needs to be installed via App Store or xcode-select
-log_warning "Xcode must be installed manually via App Store or 'xcode-select --install'"
 
 for app in "${GUI_APPS[@]}"; do
     if brew list --cask "$app" &> /dev/null 2>&1; then
         log_info "$app is already installed, skipping..."
     else
-        log_info "Installing $app..."
-        if brew install --cask "$app" 2>&1; then
-            log_success "$app installed successfully"
+        # Verify cask exists before attempting installation
+        if verify_cask_exists "$app"; then
+            log_info "Installing $app..."
+            if brew install --cask "$app" 2>&1; then
+                log_success "$app installed successfully"
+            else
+                log_warning "Failed to install $app (installation may have failed)"
+            fi
         else
-            log_warning "Failed to install $app (may require manual installation or may not be available)"
+            log_warning "$app cask not found in Homebrew. It may not be available or the name may be incorrect."
+            log_info "You may need to install $app manually."
         fi
     fi
 done
@@ -160,21 +176,35 @@ log_success "GUI applications installation complete"
 log_info "Installing CLI tools..."
 
 # Install bottom (btm)
-if brew list bottom &> /dev/null; then
+if brew list bottom &> /dev/null 2>&1; then
     log_info "bottom (btm) is already installed, skipping..."
 else
-    log_info "Installing bottom (btm)..."
-    brew install bottom
-    log_success "bottom (btm) installed"
+    if verify_formula_exists "bottom"; then
+        log_info "Installing bottom (btm)..."
+        if brew install bottom 2>&1; then
+            log_success "bottom (btm) installed"
+        else
+            log_warning "Failed to install bottom"
+        fi
+    else
+        log_warning "bottom formula not found in Homebrew"
+    fi
 fi
 
 # Install lazydocker
-if brew list lazydocker &> /dev/null; then
+if brew list lazydocker &> /dev/null 2>&1; then
     log_info "lazydocker is already installed, skipping..."
 else
-    log_info "Installing lazydocker..."
-    brew install lazydocker
-    log_success "lazydocker installed"
+    if verify_formula_exists "lazydocker"; then
+        log_info "Installing lazydocker..."
+        if brew install lazydocker 2>&1; then
+            log_success "lazydocker installed"
+        else
+            log_warning "Failed to install lazydocker"
+        fi
+    else
+        log_warning "lazydocker formula not found in Homebrew"
+    fi
 fi
 
 # ============================================================================
@@ -185,5 +215,5 @@ brew cleanup
 
 log_success "Setup complete! 🎉"
 log_info "Please restart your terminal or run 'source ~/.zshrc' to use nvm and asdf"
-log_warning "Don't forget to install Xcode manually if you haven't already!"
+log_warning "Note: Xcode installation via Homebrew is very large (~12GB) and may take a long time"
 

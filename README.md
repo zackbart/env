@@ -27,7 +27,7 @@ A robust setup script for configuring a new M5 Mac with essential development to
    - VLC
    - WireGuard
    - Twingate
-   - Xcode (requires manual installation via App Store)
+   - Xcode
 4. **Installs CLI Tools**:
    - bottom (btm) - System monitor
    - lazydocker - Docker management tool
@@ -46,11 +46,22 @@ A robust setup script for configuring a new M5 Mac with essential development to
 
 The script is idempotent - you can run it multiple times safely. It will skip already installed packages.
 
+## Verification
+
+Before running the setup script, you can verify that all Homebrew casks and formulas are available:
+
+```bash
+./verify.sh
+```
+
+This will check if all applications and tools can be found in Homebrew before attempting installation.
+
 ## Notes
 
-- **Xcode** must be installed manually via the App Store or by running `xcode-select --install`
+- **Xcode** installation via Homebrew is very large (~12GB) and may take a long time
 - After running the script, restart your terminal or run `source ~/.zshrc` to use nvm and asdf
 - Some applications may require manual configuration after installation
+- The script includes verification checks to ensure casks/formulas exist before installation
 
 ## Requirements
 
