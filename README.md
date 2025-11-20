@@ -4,13 +4,19 @@ A robust setup script for configuring a new M5 Mac with essential development to
 
 ## Quick Start (One-Liner)
 
-Paste this into your terminal to clone and run the setup script:
+**If you have git installed:**
 
 ```bash
 git clone https://github.com/zackbart/env.git ~/env-setup && cd ~/env-setup && chmod +x setup.sh && ./setup.sh
 ```
 
-Or if you already have the repo cloned:
+**If you don't have git (downloads script directly):**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/zackbart/env/main/setup.sh -o /tmp/setup.sh && chmod +x /tmp/setup.sh && /tmp/setup.sh
+```
+
+**If you already have the repo cloned:**
 
 ```bash
 cd ~/env-setup && chmod +x setup.sh && ./setup.sh
