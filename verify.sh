@@ -1,92 +1,135 @@
 #!/bin/bash
 
-# Verification script to check if all Homebrew casks and formulas exist
+# Verification script — checks all Homebrew casks and formulas exist before install
 
-set -e
-
-echo "🔍 Verifying Homebrew casks and formulas..."
+echo "Verifying Homebrew casks and formulas..."
 echo ""
 
-# Check if Homebrew is installed
 if ! command -v brew &> /dev/null; then
-    echo "❌ Homebrew is not installed. Please install it first."
+    echo "Homebrew is not installed."
     exit 1
 fi
 
-# Update Homebrew to get latest cask information
-echo "📦 Updating Homebrew..."
+echo "Updating Homebrew and adding taps..."
 brew update > /dev/null 2>&1
+brew tap steipete/tap 2>/dev/null || true
+brew tap zackbart/tap 2>/dev/null || true
+brew tap yakitrak/yakitrak 2>/dev/null || true
+brew tap jetbrains/utils 2>/dev/null || true
+brew tap stripe/stripe-cli 2>/dev/null || true
+brew tap supabase/tap 2>/dev/null || true
 
-# GUI Applications to verify
-GUI_APPS=(
-    "appcleaner"
-    "android-studio"
-    "clop"
-    "cursor"
+CASK_APPS=(
     "google-chrome"
-    "docker"
+    "cursor"
+    "docker-desktop"
     "ghostty"
-    "handbrake"
-    "hiddenbar"
-    "localsend"
-    "obs"
+    "lm-studio"
     "obsidian"
+    "granola"
+    "claude"
+    "appcleaner"
+    "clop"
+    "handy"
+    "localsend"
+    "cyberduck"
+    "balenaetcher"
+    "rustdesk"
+    "handbrake-app"
+    "obs"
     "spotify"
-    "termius"
-    "testflight"
     "vlc"
-    "wireguard"
+    "tailscale-app"
+    "termius"
     "twingate"
-    "xcode"
+    "ngrok"
+    "zoom"
+    "beekeeper-studio"
+    "utm"
+    "claude-code"
+    "codex"
+    "gcloud-cli"
+    "font-jetbrains-mono"
+    "font-jetbrains-mono-nerd-font"
+    "font-symbols-only-nerd-font"
 )
 
-# CLI Tools to verify
 CLI_TOOLS=(
+    "starship"
+    "zoxide"
+    "fzf"
+    "bat"
+    "eza"
+    "fd"
+    "ripgrep"
+    "gh"
+    "lazygit"
+    "yazi"
     "bottom"
     "lazydocker"
-    "gh"
-    "ngrok"
+    "node"
+    "pnpm"
+    "go"
+    "openjdk"
+    "jq"
+    "duckdb"
+    "ffmpeg"
+    "imagemagick"
+    "pandoc"
+    "poppler"
+    "supabase"
+    "stripe"
+    "railway"
+    "trufflehog"
+    "gnupg"
+    "chafa"
+    "resvg"
+    "libpq"
+    "cloc"
+    "sevenzip"
+    "opencode"
+    "steipete/tap/summarize"
+    "zackbart/tap/cleenup"
+    "zackbart/tap/seer"
+    "zackbart/tap/werk"
+    "yakitrak/yakitrak/obsidian-cli"
+    "jetbrains/utils/kotlin-lsp"
 )
 
-echo "🔎 Checking GUI applications (casks)..."
+echo "Checking casks..."
 echo "----------------------------------------"
 FAILED_CASKS=()
-for app in "${GUI_APPS[@]}"; do
+for app in "${CASK_APPS[@]}"; do
     if brew info --cask "$app" &> /dev/null; then
-        echo "✅ $app - Available"
+        echo "  $app"
     else
-        echo "❌ $app - NOT FOUND"
+        echo "  MISSING: $app"
         FAILED_CASKS+=("$app")
     fi
 done
 
 echo ""
-echo "🔎 Checking CLI tools (formulas)..."
+echo "Checking formulas..."
 echo "----------------------------------------"
 FAILED_FORMULAS=()
 for tool in "${CLI_TOOLS[@]}"; do
     if brew info "$tool" &> /dev/null; then
-        echo "✅ $tool - Available"
+        echo "  $tool"
     else
-        echo "❌ $tool - NOT FOUND"
+        echo "  MISSING: $tool"
         FAILED_FORMULAS+=("$tool")
     fi
 done
 
 echo ""
-echo "📊 Summary"
+echo "Summary"
 echo "----------------------------------------"
 if [ ${#FAILED_CASKS[@]} -eq 0 ] && [ ${#FAILED_FORMULAS[@]} -eq 0 ]; then
-    echo "✅ All casks and formulas are available!"
+    echo "All casks and formulas are available."
     exit 0
 else
-    echo "❌ Some items were not found:"
-    if [ ${#FAILED_CASKS[@]} -gt 0 ]; then
-        echo "   Failed casks: ${FAILED_CASKS[*]}"
-    fi
-    if [ ${#FAILED_FORMULAS[@]} -gt 0 ]; then
-        echo "   Failed formulas: ${FAILED_FORMULAS[*]}"
-    fi
+    echo "Some items were not found:"
+    [ ${#FAILED_CASKS[@]} -gt 0 ] && echo "  Casks: ${FAILED_CASKS[*]}"
+    [ ${#FAILED_FORMULAS[@]} -gt 0 ] && echo "  Formulas: ${FAILED_FORMULAS[*]}"
     exit 1
 fi
-

@@ -1,93 +1,93 @@
-# macOS Setup Script
+# env
 
-A robust setup script for configuring a new M5 Mac with essential development tools and applications.
+macOS setup script — Homebrew apps, CLI tools, fonts, and dotfiles.
 
-## Quick Start (One-Liner)
-
-**If you have git installed:**
+## Quick Start
 
 ```bash
-git clone https://github.com/zackbart/env.git ~/env-setup && cd ~/env-setup && chmod +x setup.sh && ./setup.sh
+git clone https://github.com/zackbart/env.git ~/env && cd ~/env && chmod +x setup.sh && ./setup.sh
 ```
 
-**If you don't have git (downloads script directly):**
+Without git:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/zackbart/env/main/setup.sh -o /tmp/setup.sh && chmod +x /tmp/setup.sh && /tmp/setup.sh
 ```
 
-**If you already have the repo cloned:**
+## What It Installs
 
-```bash
-cd ~/env-setup && chmod +x setup.sh && ./setup.sh
-```
+### GUI Apps (Homebrew Casks)
 
-## What This Script Does
+| Category | Apps |
+|----------|------|
+| Browsers | Chrome |
+| Development | Cursor, Docker Desktop, Ghostty, LM Studio |
+| Productivity | Obsidian, Granola, Claude |
+| Utilities | AppCleaner, Clop, Handy, LocalSend, Cyberduck, balenaEtcher, RustDesk |
+| Media | HandBrake, OBS, Spotify, VLC |
+| Networking | Tailscale, Termius, Twingate, ngrok |
+| Communication | Zoom |
+| Database | Beekeeper Studio |
+| Virtualization | UTM |
+| CLI (cask) | Claude Code, Codex, gcloud CLI |
 
-1. **Installs Homebrew** - Package manager for macOS
-2. **Installs Version Managers**:
-   - nvm (Node Version Manager)
-   - asdf (Extendable version manager)
-3. **Installs GUI Applications** (via Homebrew Cask):
-   - App Cleaner
-   - Android Studio
-   - Clop
-   - Cursor
-   - Chrome
-   - Docker Desktop
-   - Ghostty
-   - Handbrake
-   - Hidden Bar
-   - LocalSend
-   - OBS
-   - Obsidian
-   - Spotify
-   - Termius
-   - TestFlight
-   - VLC
-   - WireGuard
-   - Twingate
-   - Xcode
-4. **Installs CLI Tools**:
-   - bottom (btm) - System monitor
-   - lazydocker - Docker management tool
-   - gh - GitHub CLI
-   - ngrok - Secure tunneling tool
+### Fonts
 
-## Usage
+- JetBrains Mono
+- JetBrains Mono Nerd Font
+- Symbols Only Nerd Font
 
-1. Make the script executable:
-   ```bash
-   chmod +x setup.sh
-   ```
+### CLI Tools (Homebrew Formulae)
 
-2. Run the script:
-   ```bash
-   ./setup.sh
-   ```
+| Category | Tools |
+|----------|-------|
+| Shell & prompt | starship, zoxide, fzf |
+| Modern coreutils | bat, eza, fd, ripgrep |
+| Git | gh, lazygit |
+| File manager | yazi |
+| Monitoring | bottom |
+| Docker | lazydocker |
+| Languages | node, pnpm, go, openjdk |
+| Data | jq, duckdb |
+| Media | ffmpeg, imagemagick |
+| Images & rendering | chafa, resvg |
+| Documents | pandoc, poppler |
+| Database client | libpq |
+| Cloud & deploy | supabase, stripe, railway |
+| Security | trufflehog, gnupg |
+| Utilities | cloc, sevenzip, opencode |
+| Tap tools | summarize, cleenup, seer, werk, obsidian-cli, kotlin-lsp |
 
-The script is idempotent - you can run it multiple times safely. It will skip already installed packages.
+### Global npm Packages
 
-## Verification
+@dbml/cli, @googleworkspace/cli, agent-browser, defuddle, pyright, skills, slopmeter, typescript, typescript-language-server
 
-Before running the setup script, you can verify that all Homebrew casks and formulas are available:
+### Dotfiles
+
+The script symlinks these from `dotfiles/` to their proper locations:
+
+- `.zshrc` → `~/.zshrc`
+- `.gitconfig` → `~/.gitconfig`
+- `starship.toml` → `~/.config/starship.toml`
+- `ghostty/config` → `~/.config/ghostty/config`
+
+Existing files are backed up with a `.bak` extension.
+
+### Manual Installs
+
+- **DaVinci Resolve** — not available via Homebrew
+- **Xcode** — install from the App Store
+
+## Verify Before Install
 
 ```bash
 ./verify.sh
 ```
 
-This will check if all applications and tools can be found in Homebrew before attempting installation.
+Checks that all casks and formulas are available in Homebrew before you run setup.
 
 ## Notes
 
-- **Xcode** installation via Homebrew is very large (~12GB) and may take a long time
-- After running the script, restart your terminal or run `source ~/.zshrc` to use nvm and asdf
-- Some applications may require manual configuration after installation
-- The script includes verification checks to ensure casks/formulas exist before installation
-
-## Requirements
-
-- macOS (optimized for Apple Silicon/M5)
-- Internet connection
-- Administrator privileges (for Homebrew installation)
-
+- Idempotent — safe to run multiple times
+- Optimized for Apple Silicon
+- Restart your terminal after running to apply shell config

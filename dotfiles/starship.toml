@@ -1,0 +1,209 @@
+# Starship - Clean Developer Prompt
+# =============================================================================
+
+format = """
+$directory\
+$git_branch\
+$git_status\
+$git_metrics\
+$nodejs\
+$bun\
+$python\
+$rust\
+$golang\
+$java\
+$ruby\
+$elixir\
+$php\
+$lua\
+$package\
+$container\
+$jobs\
+$status\
+$line_break\
+$character"""
+
+add_newline = true
+command_timeout = 1000
+right_format = """$memory_usage$battery$fill$time$cmd_duration"""
+
+[character]
+success_symbol = "[❯](bold)"
+error_symbol = "[❯](red)"
+vimcmd_symbol = "[❮](bold)"
+
+[directory]
+format = "[$path]($style)[$read_only]($read_only_style) "
+style = "bold"
+read_only = " 󰌾"
+read_only_style = "red"
+truncation_length = 4
+truncate_to_repo = true
+
+[git_branch]
+format = "[$symbol$branch(:$remote_branch)]($style) "
+style = "dimmed"
+symbol = " "
+
+[git_status]
+format = '([$all_status$ahead_behind]($style) )'
+style = "dimmed"
+conflicted = "󰞇"
+ahead = "⇡"
+behind = "⇣"
+diverged = "⇕"
+untracked = "?"
+stashed = "󰏗"
+modified = "●"
+staged = "+"
+renamed = "󰁕"
+deleted = "✘"
+
+[cmd_duration]
+format = "[$duration]($style)"
+style = "dimmed"
+min_time = 1000
+
+# Show language runtimes only when relevant files detected
+[nodejs]
+format = "[$symbol]($style)"
+style = "dimmed"
+symbol = " "
+detect_files = ["package.json", ".node-version"]
+detect_folders = ["node_modules"]
+
+[python]
+format = '[$symbol]($style)'
+style = "dimmed"
+symbol = " "
+
+[rust]
+format = "[$symbol]($style)"
+style = "dimmed"
+symbol = " "
+
+[golang]
+format = "[$symbol]($style)"
+style = "dimmed"
+symbol = " "
+
+[java]
+format = "[$symbol]($style)"
+style = "dimmed"
+symbol = " "
+
+[bun]
+format = "[$symbol]($style)"
+style = "dimmed"
+symbol = "󰛦 "
+
+[ruby]
+format = "[$symbol]($style)"
+style = "dimmed"
+symbol = " "
+
+[elixir]
+format = "[$symbol]($style)"
+style = "dimmed"
+symbol = " "
+
+[php]
+format = "[$symbol]($style)"
+style = "dimmed"
+symbol = " "
+
+[lua]
+format = "[$symbol]($style)"
+style = "dimmed"
+symbol = " "
+
+[git_metrics]
+format = '([+$added]($added_style) )([-$deleted]($deleted_style) )'
+added_style = "dimmed green"
+deleted_style = "dimmed red"
+disabled = false
+
+[status]
+format = '[\[$status\]]($style) '
+style = "red"
+disabled = false
+
+[jobs]
+format = "[$symbol$number]($style) "
+style = "dimmed"
+symbol = " "
+number_threshold = 1
+
+[container]
+format = '[$symbol \[$name\]]($style) '
+style = "dimmed yellow"
+symbol = "󰡨"
+
+[fill]
+symbol = " "
+
+[battery]
+format = "[$percentage]($style) "
+disabled = false
+[[battery.display]]
+threshold = 20
+style = "red bold"
+[[battery.display]]
+threshold = 50
+style = "yellow"
+[[battery.display]]
+threshold = 100
+style = "dimmed"
+
+# Disabled - too noisy
+[aws]
+disabled = true
+
+[azure]
+disabled = true
+
+[gcloud]
+disabled = true
+
+[kubernetes]
+disabled = true
+
+[docker_context]
+disabled = true
+
+[package]
+format = "[$symbol$version]($style) "
+style = "dimmed"
+symbol = "󰏗 "
+disabled = false
+
+[terraform]
+disabled = true
+
+[vagrant]
+disabled = true
+
+[nix_shell]
+disabled = true
+
+[memory_usage]
+format = "[$symbol$ram]($style) "
+style = "dimmed"
+symbol = " "
+disabled = false
+threshold = -1
+
+[time]
+format = "[$time]($style) "
+style = "dimmed"
+disabled = false
+time_format = "%H:%M"
+
+[username]
+disabled = true
+
+[hostname]
+disabled = true
+
+[line_break]
+disabled = false
