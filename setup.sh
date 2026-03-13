@@ -109,6 +109,8 @@ CASK_APPS=(
     "obsidian"
     "granola"
     "claude"
+    "paper"
+    "superset"
 
     # Utilities
     "appcleaner"
@@ -118,6 +120,11 @@ CASK_APPS=(
     "cyberduck"
     "balenaetcher"
     "rustdesk"
+    "wifiman"
+    "send-to-kindle"
+
+    # Media production
+    "ndi-tools"
 
     # Media
     "handbrake-app"
@@ -162,6 +169,46 @@ for app in "${CASK_APPS[@]}"; do
 done
 
 log_success "GUI applications complete"
+
+# ============================================================================
+# Mac App Store Apps (via mas)
+# ============================================================================
+log_info "Installing Mac App Store apps..."
+
+if ! command -v mas &> /dev/null; then
+    if $DRY_RUN; then
+        log_warning "WOULD install mas (Mac App Store CLI)"
+    else
+        brew install mas
+    fi
+fi
+
+# Format: "id:name"
+MAS_APPS=(
+    "937984704:Amphetamine"
+    "1452453066:Hidden Bar"
+    "1451685025:WireGuard"
+    "899247664:TestFlight"
+)
+
+for entry in "${MAS_APPS[@]}"; do
+    id="${entry%%:*}"
+    name="${entry##*:}"
+    if mas list | grep -q "^$id "; then
+        log_success "$name is already installed"
+    elif $DRY_RUN; then
+        log_warning "WOULD install from App Store: $name ($id)"
+    else
+        log_info "Installing $name..."
+        if mas install "$id" 2>&1; then
+            log_success "$name installed"
+        else
+            log_warning "Failed to install $name (are you signed into the App Store?)"
+        fi
+    fi
+done
+
+log_success "App Store apps complete"
 
 # ============================================================================
 # Fonts
@@ -370,5 +417,10 @@ log_success "Setup complete!"
 log_info "Restart your terminal or run 'source ~/.zshrc' to apply shell config."
 echo ""
 log_warning "Manual installs needed:"
-log_warning "  - DaVinci Resolve: https://www.blackmagicdesign.com/products/davinciresolve"
-log_warning "  - Xcode: Install from the App Store"
+log_warning "  - DaVinci Resolve:  https://www.blackmagicdesign.com/products/davinciresolve"
+log_warning "  - Xcode:            Install from the App Store (or already installed via mas)"
+log_warning "  - Notchi:           https://lo.cafe/notchi"
+log_warning "  - Readout:          https://readout.app"
+log_warning "  - OpenPencil:       https://github.com/nicktmro/OpenPencil"
+log_warning "  - OpenUsage:        https://github.com/nicktmro/OpenUsage"
+log_warning "  - FnMacAssistant:   https://github.com/nicktmro/FnMacAssistant"

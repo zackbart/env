@@ -22,8 +22,9 @@ curl -fsSL https://raw.githubusercontent.com/zackbart/env/main/setup.sh -o /tmp/
 |----------|------|
 | Browsers | Chrome |
 | Development | Cursor, Docker Desktop, Ghostty, LM Studio |
-| Productivity | Obsidian, Granola, Claude |
-| Utilities | AppCleaner, Clop, Handy, LocalSend, Cyberduck, balenaEtcher, RustDesk |
+| Productivity | Obsidian, Granola, Claude, Paper, Superset |
+| Utilities | AppCleaner, Clop, Handy, LocalSend, Cyberduck, balenaEtcher, RustDesk, WiFiman, Send to Kindle |
+| Media production | NDI Tools |
 | Media | HandBrake, OBS, Spotify, VLC |
 | Networking | Tailscale, Termius, Twingate, ngrok |
 | Communication | Zoom |
@@ -73,10 +74,18 @@ The script symlinks these from `dotfiles/` to their proper locations:
 
 Existing files are backed up with a `.bak` extension.
 
+### Mac App Store (via mas)
+
+Amphetamine, Hidden Bar, WireGuard, TestFlight
+
 ### Manual Installs
 
-- **DaVinci Resolve** — not available via Homebrew
-- **Xcode** — install from the App Store
+- **DaVinci Resolve** — https://www.blackmagicdesign.com/products/davinciresolve
+- **Notchi** — https://lo.cafe/notchi
+- **Readout** — https://readout.app
+- **OpenPencil** — https://github.com/nicktmro/OpenPencil
+- **OpenUsage** — https://github.com/nicktmro/OpenUsage
+- **FnMacAssistant** — https://github.com/nicktmro/FnMacAssistant
 
 ## Verify Before Install
 
