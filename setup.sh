@@ -189,6 +189,7 @@ MAS_APPS=(
     "1452453066:Hidden Bar"
     "1451685025:WireGuard"
     "899247664:TestFlight"
+    "497799835:Xcode"
 )
 
 for entry in "${MAS_APPS[@]}"; do
