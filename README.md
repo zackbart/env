@@ -71,7 +71,6 @@ Installed to `~/.agents/skills/` via [skills.sh](https://skills.sh). Available i
 |-------|--------|
 | ui-design-ethos | `zackbart/skills` |
 | optimize-prompt | `zackbart/skills` |
-| update-docs | `zackbart/skills` |
 | agent-browser | `vercel-labs/agent-browser` |
 | architecture-patterns | `wshobson/agents` |
 | cleenup | `zackbart/cleenup` |

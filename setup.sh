@@ -410,12 +410,16 @@ fi
 # ============================================================================
 log_info "Installing global Claude Code skills..."
 
-if command -v npx &> /dev/null; then
+if ! npm list -g skills &> /dev/null 2>&1; then
+    log_info "Installing skills CLI..."
+    npm install -g skills 2>&1 || true
+fi
+
+if npm list -g skills &> /dev/null 2>&1; then
     SKILLS=(
         # From zackbart/skills
         "zackbart/skills --skill ui-design-ethos"
         "zackbart/skills --skill optimize-prompt"
-        "zackbart/skills --skill update-docs"
 
         # External
         "vercel-labs/agent-browser --skill agent-browser"
@@ -448,7 +452,7 @@ if command -v npx &> /dev/null; then
 
     log_success "Claude Code skills complete"
 else
-    log_warning "npx not found — skipping Claude Code skills"
+    log_warning "skills npm package not found — skipping Claude Code skills (run: npm install -g skills)"
 fi
 
 # ============================================================================
