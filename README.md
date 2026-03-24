@@ -63,6 +63,36 @@ curl -fsSL https://raw.githubusercontent.com/zackbart/env/main/setup.sh -o /tmp/
 
 @dbml/cli, @googleworkspace/cli, agent-browser, defuddle, pyright, skills, slopmeter, typescript, typescript-language-server
 
+### Claude Code Skills (global)
+
+Installed to `~/.agents/skills/` via [skills.sh](https://skills.sh). Available in all projects for Claude Code, Codex, and Cursor.
+
+| Skill | Source |
+|-------|--------|
+| ui-design-ethos | `zackbart/skills` |
+| optimize-prompt | `zackbart/skills` |
+| update-docs | `zackbart/skills` |
+| agent-browser | `vercel-labs/agent-browser` |
+| architecture-patterns | `wshobson/agents` |
+| cleenup | `zackbart/cleenup` |
+| code-review-excellence | `wshobson/agents` |
+| defuddle | `kepano/obsidian-skills` |
+| deslop | `cursor/plugins` |
+| emil-design-eng | `emilkowalski/skill` |
+| sentry-fix-issues | `getsentry/sentry-agent-skills` |
+| skill-creator | `anthropics/skills` |
+| use-railway | `railwayapp/railway-skills` |
+
+### Claude Code Plugins
+
+| Plugin | Source |
+|--------|--------|
+| claude-hud | `jarrodwatts/claude-hud` |
+| context7 | `claude-plugins-official` |
+| impeccable | `pbakaus/impeccable` |
+| motif | `zackbart/motif` |
+| understand-anything | `Lum1104/Understand-Anything` |
+
 ### Dotfiles
 
 The script symlinks these from `dotfiles/` to their proper locations:

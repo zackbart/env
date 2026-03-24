@@ -406,6 +406,103 @@ else
 fi
 
 # ============================================================================
+# Claude Code Skills (global)
+# ============================================================================
+log_info "Installing global Claude Code skills..."
+
+if command -v npx &> /dev/null; then
+    SKILLS=(
+        # From zackbart/skills
+        "zackbart/skills --skill ui-design-ethos"
+        "zackbart/skills --skill optimize-prompt"
+        "zackbart/skills --skill update-docs"
+
+        # External
+        "vercel-labs/agent-browser --skill agent-browser"
+        "wshobson/agents --skill architecture-patterns"
+        "zackbart/cleenup --skill cleenup"
+        "wshobson/agents --skill code-review-excellence"
+        "kepano/obsidian-skills --skill defuddle"
+        "cursor/plugins --skill deslop"
+        "emilkowalski/skill --skill emil-design-eng"
+        "getsentry/sentry-agent-skills --skill sentry-fix-issues"
+        "anthropics/skills --skill skill-creator"
+        "railwayapp/railway-skills --skill use-railway"
+    )
+
+    for entry in "${SKILLS[@]}"; do
+        skill_name="${entry##*--skill }"
+        if [ -d "$HOME/.agents/skills/$skill_name" ]; then
+            log_success "skill: $skill_name is already installed"
+        elif $DRY_RUN; then
+            log_warning "WOULD install skill: $skill_name"
+        else
+            log_info "Installing skill: $skill_name..."
+            if npx skills add -g $entry --agent claude-code -y 2>&1 | tail -1 | grep -q "Done"; then
+                log_success "skill: $skill_name installed"
+            else
+                log_warning "Failed to install skill: $skill_name"
+            fi
+        fi
+    done
+
+    log_success "Claude Code skills complete"
+else
+    log_warning "npx not found — skipping Claude Code skills"
+fi
+
+# ============================================================================
+# Claude Code Plugins
+# ============================================================================
+log_info "Installing Claude Code plugins..."
+
+if command -v claude &> /dev/null; then
+    # Add third-party marketplaces
+    MARKETPLACES=(
+        "jarrodwatts/claude-hud"
+        "pbakaus/impeccable"
+        "zackbart/motif"
+        "Lum1104/Understand-Anything"
+    )
+
+    for marketplace in "${MARKETPLACES[@]}"; do
+        if $DRY_RUN; then
+            log_warning "WOULD add marketplace: $marketplace"
+        else
+            claude plugin marketplace add "$marketplace" 2>/dev/null
+        fi
+    done
+
+    # Install plugins
+    PLUGINS=(
+        "claude-hud@claude-hud"
+        "context7@claude-plugins-official"
+        "impeccable@impeccable"
+        "motif@motif"
+        "understand-anything@understand-anything"
+    )
+
+    for plugin in "${PLUGINS[@]}"; do
+        if claude plugin list 2>/dev/null | grep -q "$plugin"; then
+            log_success "plugin: $plugin is already installed"
+        elif $DRY_RUN; then
+            log_warning "WOULD install plugin: $plugin"
+        else
+            log_info "Installing plugin: $plugin..."
+            if claude plugin install "$plugin" 2>&1; then
+                log_success "plugin: $plugin installed"
+            else
+                log_warning "Failed to install plugin: $plugin"
+            fi
+        fi
+    done
+
+    log_success "Claude Code plugins complete"
+else
+    log_warning "claude CLI not found — skipping Claude Code plugins"
+fi
+
+# ============================================================================
 # Post-installation
 # ============================================================================
 if ! $DRY_RUN; then
