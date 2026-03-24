@@ -79,6 +79,7 @@ Installed to `~/.agents/skills/` via [skills.sh](https://skills.sh). Available i
 | deslop | `cursor/plugins` |
 | emil-design-eng | `emilkowalski/skill` |
 | sentry-fix-issues | `getsentry/sentry-agent-skills` |
+| find-skills | `vercel-labs/skills` |
 | skill-creator | `anthropics/skills` |
 | use-railway | `railwayapp/railway-skills` |
 

@@ -432,6 +432,7 @@ if npm list -g skills &> /dev/null 2>&1; then
         "getsentry/sentry-agent-skills --skill sentry-fix-issues"
         "anthropics/skills --skill skill-creator"
         "railwayapp/railway-skills --skill use-railway"
+        "vercel-labs/skills --skill find-skills"
     )
 
     for entry in "${SKILLS[@]}"; do
