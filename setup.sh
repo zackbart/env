@@ -116,6 +116,7 @@ CASK_APPS=(
     "appcleaner"
     "clop"
     "handy"
+    "linearmouse"
     "localsend"
     "cyberduck"
     "balenaetcher"
