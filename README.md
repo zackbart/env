@@ -21,16 +21,16 @@ curl -fsSL https://raw.githubusercontent.com/zackbart/env/main/setup.sh -o /tmp/
 | Category | Apps |
 |----------|------|
 | Browsers | Chrome |
-| Development | Cursor, Docker Desktop, Ghostty, LM Studio |
-| Productivity | Obsidian, Granola, Claude, Paper, Superset |
-| Utilities | AppCleaner, Clop, Handy, LocalSend, Cyberduck, balenaEtcher, RustDesk, WiFiman, Send to Kindle |
-| Media production | NDI Tools |
-| Media | HandBrake, OBS, Spotify, VLC |
-| Networking | Tailscale, Termius, Twingate, ngrok |
-| Communication | Zoom |
+| Development | Android Studio, Docker Desktop, Ghostty, LM Studio, VS Code |
+| AI & Productivity | Claude, cmux, Obsidian, Notion Calendar, Superset |
+| Utilities | AppCleaner, balenaEtcher, Clop, Cyberduck, Handy, LocalSend, RustDesk, Send to Kindle, WiFiman |
+| Media | Anki, HandBrake, OBS, Spotify, VLC |
+| Networking | mitmproxy, Mullvad VPN, ngrok, Termius, Twingate, VB-Cable |
+| Communication | Discord, Zoom |
 | Database | Beekeeper Studio |
+| Gaming | Heroic |
 | Virtualization | UTM |
-| CLI (cask) | Claude Code, Codex, gcloud CLI |
+| CLI (cask) | Claude Code, Codex, Cursor CLI |
 
 ### Fonts
 
@@ -42,56 +42,34 @@ curl -fsSL https://raw.githubusercontent.com/zackbart/env/main/setup.sh -o /tmp/
 
 | Category | Tools |
 |----------|-------|
-| Shell & prompt | starship, zoxide, fzf |
-| Modern coreutils | bat, eza, fd, ripgrep |
+| Shell & prompt | starship, zoxide, fzf, tmux |
+| Modern coreutils | bat, eza, fd, ripgrep, difftastic |
 | Git | gh, lazygit |
-| File manager | yazi |
+| File managers | yazi, superfile |
 | Monitoring | bottom |
 | Docker | lazydocker |
-| Languages | node, pnpm, go, openjdk |
+| Languages & runtimes | asdf, node, pnpm, go, openjdk@17, python@3.14, uv |
+| TypeScript & Python tooling | typescript, typescript-language-server, pyright |
 | Data | jq, duckdb |
-| Media | ffmpeg, imagemagick |
-| Images & rendering | chafa, resvg |
+| Media | ffmpeg, imagemagick, sox |
 | Documents | pandoc, poppler |
+| Cloud & deploy | supabase, stripe, railway, firebase-cli, sentry-cli |
+| Security | trufflehog, gnupg, certbot |
+| Images & rendering | chafa, resvg |
 | Database client | libpq |
-| Cloud & deploy | supabase, stripe, railway |
-| Security | trufflehog, gnupg |
-| Utilities | cloc, sevenzip, opencode |
-| Tap tools | summarize, cleenup, seer, werk, obsidian-cli, kotlin-lsp |
+| Utilities | cloc, happy-coder, sevenzip, opencode, mas |
+| Tap tools | imsg, summarize, cleenup, seer, werk, obsidian-cli |
 
 ### Global npm Packages
 
-@dbml/cli, @googleworkspace/cli, agent-browser, defuddle, pyright, skills, slopmeter, typescript, typescript-language-server
+@dbml/cli, @googleworkspace/cli, @steipete/bird, agent-browser, defuddle, playwriter, skills
 
-### Claude Code Skills (global)
+### Claude Code Skills & Plugins
 
-Installed to `~/.agents/skills/` via [skills.sh](https://skills.sh). Available in all projects for Claude Code, Codex, and Cursor.
+Managed separately:
 
-| Skill | Source |
-|-------|--------|
-| ui-design-ethos | `zackbart/skills` |
-| optimize-prompt | `zackbart/skills` |
-| agent-browser | `vercel-labs/agent-browser` |
-| architecture-patterns | `wshobson/agents` |
-| cleenup | `zackbart/cleenup` |
-| code-review-excellence | `wshobson/agents` |
-| defuddle | `kepano/obsidian-skills` |
-| deslop | `cursor/plugins` |
-| emil-design-eng | `emilkowalski/skill` |
-| sentry-fix-issues | `getsentry/sentry-agent-skills` |
-| find-skills | `vercel-labs/skills` |
-| skill-creator | `anthropics/skills` |
-| use-railway | `railwayapp/railway-skills` |
-
-### Claude Code Plugins
-
-| Plugin | Source |
-|--------|--------|
-| claude-hud | `jarrodwatts/claude-hud` |
-| context7 | `claude-plugins-official` |
-| impeccable | `pbakaus/impeccable` |
-| motif | `zackbart/motif` |
-| understand-anything | `Lum1104/Understand-Anything` |
+- **Skills:** https://github.com/zackbart/skills
+- **Plugins:** https://github.com/zackbart/agent-plugins
 
 ### Dotfiles
 
@@ -106,16 +84,28 @@ Existing files are backed up with a `.bak` extension.
 
 ### Mac App Store (via mas)
 
-Amphetamine, Hidden Bar, WireGuard, TestFlight
+Amphetamine, Hidden Bar, WireGuard, TestFlight, Xcode
 
 ### Manual Installs
 
 - **DaVinci Resolve** — https://www.blackmagicdesign.com/products/davinciresolve
-- **Notchi** — https://lo.cafe/notchi
-- **Readout** — https://readout.app
-- **OpenPencil** — https://github.com/nicktmro/OpenPencil
-- **OpenUsage** — https://github.com/nicktmro/OpenUsage
-- **FnMacAssistant** — https://github.com/nicktmro/FnMacAssistant
+- **Blackmagic RAW** — https://www.blackmagicdesign.com/products/blackmagicraw
+- **Chops** — Direct download
+- **Clearly** — https://github.com/Shpigford/clearly
+- **OpenOats** — https://github.com/yazinsai/OpenOats
+- **OpenUsage** — https://github.com/robinebers/openusage
+- **Unbreakable** — Direct download
+- **Shift** — Direct download
+- **Rust (rustup)** — https://rustup.rs
+- **Bun** — https://bun.sh
+
+## Dry Run
+
+```bash
+./setup.sh --dry-run
+```
+
+Preview what would be installed without making changes.
 
 ## Verify Before Install
 
@@ -129,4 +119,5 @@ Checks that all casks and formulas are available in Homebrew before you run setu
 
 - Idempotent — safe to run multiple times
 - Optimized for Apple Silicon
+- Some casks (Mullvad VPN, Send to Kindle, VB-Cable, WiFiman, Zoom) require sudo for pkg installers — brew will prompt for your password
 - Restart your terminal after running to apply shell config

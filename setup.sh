@@ -81,11 +81,9 @@ fi
 # ============================================================================
 log_info "Adding Homebrew taps..."
 if ! $DRY_RUN; then
-    brew tap homebrew/cask-fonts 2>/dev/null || true
     brew tap steipete/tap 2>/dev/null || true
     brew tap zackbart/tap 2>/dev/null || true
     brew tap yakitrak/yakitrak 2>/dev/null || true
-    brew tap jetbrains/utils 2>/dev/null || true
     brew tap stripe/stripe-cli 2>/dev/null || true
     brew tap supabase/tap 2>/dev/null || true
 fi
@@ -100,50 +98,54 @@ CASK_APPS=(
     "google-chrome"
 
     # Development
-    "cursor"
+    "android-studio"
     "docker-desktop"
     "ghostty"
     "lm-studio"
+    "visual-studio-code"
 
-    # Productivity
-    "obsidian"
-    "granola"
+    # AI & Productivity
     "claude"
-    "paper"
+    "cmux"
+    "obsidian"
+    "notion-calendar"
     "superset"
 
     # Utilities
     "appcleaner"
-    "clop"
-    "handy"
-    "linearmouse"
-    "localsend"
-    "cyberduck"
     "balenaetcher"
+    "clop"
+    "cyberduck"
+    "handy"
+    "localsend"
     "rustdesk"
-    "wifiman"
     "send-to-kindle"
-
-    # Media production
-    "ndi-tools"
+    "wifiman"
 
     # Media
+    "anki"
     "handbrake-app"
     "obs"
     "spotify"
     "vlc"
 
     # Networking
-    "tailscale-app"
+    "mitmproxy"
+    "mullvad-vpn"
+    "ngrok"
     "termius"
     "twingate"
-    "ngrok"
+    "vb-cable"
 
     # Communication
+    "discord"
     "zoom"
 
     # Database
     "beekeeper-studio"
+
+    # Gaming
+    "heroic"
 
     # Virtualization
     "utm"
@@ -151,7 +153,7 @@ CASK_APPS=(
     # CLI tools distributed as casks
     "claude-code"
     "codex"
-    "gcloud-cli"
+    "cursor-cli"
 )
 
 for app in "${CASK_APPS[@]}"; do
@@ -244,19 +246,22 @@ CLI_TOOLS=(
     "starship"
     "zoxide"
     "fzf"
+    "tmux"
 
     # Modern coreutils replacements
     "bat"
     "eza"
     "fd"
     "ripgrep"
+    "difftastic"
 
     # Git
     "gh"
     "lazygit"
 
-    # File manager
+    # File managers
     "yazi"
+    "superfile"
 
     # System monitoring
     "bottom"
@@ -265,10 +270,18 @@ CLI_TOOLS=(
     "lazydocker"
 
     # Languages & runtimes
+    "asdf"
     "node"
     "pnpm"
     "go"
-    "openjdk"
+    "openjdk@17"
+    "python@3.14"
+    "uv"
+
+    # TypeScript & Python tooling
+    "typescript"
+    "typescript-language-server"
+    "pyright"
 
     # Data
     "jq"
@@ -277,6 +290,7 @@ CLI_TOOLS=(
     # Media processing
     "ffmpeg"
     "imagemagick"
+    "sox"
 
     # Documents
     "pandoc"
@@ -286,10 +300,13 @@ CLI_TOOLS=(
     "supabase"
     "stripe"
     "railway"
+    "firebase-cli"
+    "sentry-cli"
 
     # Security
     "trufflehog"
     "gnupg"
+    "certbot"
 
     # Images & rendering
     "chafa"
@@ -300,10 +317,13 @@ CLI_TOOLS=(
 
     # Utilities
     "cloc"
+    "happy-coder"
     "sevenzip"
     "opencode"
+    "mas"
 
     # Tap tools (steipete)
+    "steipete/tap/imsg"
     "steipete/tap/summarize"
 
     # Tap tools (zackbart)
@@ -313,7 +333,6 @@ CLI_TOOLS=(
 
     # Tap tools (other)
     "yakitrak/yakitrak/obsidian-cli"
-    "jetbrains/utils/kotlin-lsp"
 )
 
 for tool in "${CLI_TOOLS[@]}"; do
@@ -341,13 +360,11 @@ log_info "Installing global npm packages..."
 NPM_PACKAGES=(
     "@dbml/cli"
     "@googleworkspace/cli"
+    "@steipete/bird"
     "agent-browser"
     "defuddle"
-    "pyright"
+    "playwriter"
     "skills"
-    "slopmeter"
-    "typescript"
-    "typescript-language-server"
 )
 
 for pkg in "${NPM_PACKAGES[@]}"; do
@@ -407,106 +424,11 @@ else
 fi
 
 # ============================================================================
-# Claude Code Skills (global)
+# Claude Code Skills & Plugins
 # ============================================================================
-log_info "Installing global Claude Code skills..."
-
-if ! npm list -g skills &> /dev/null 2>&1; then
-    log_info "Installing skills CLI..."
-    npm install -g skills 2>&1 || true
-fi
-
-if npm list -g skills &> /dev/null 2>&1; then
-    SKILLS=(
-        # From zackbart/skills
-        "zackbart/skills --skill ui-design-ethos"
-        "zackbart/skills --skill optimize-prompt"
-
-        # External
-        "vercel-labs/agent-browser --skill agent-browser"
-        "wshobson/agents --skill architecture-patterns"
-        "zackbart/cleenup --skill cleenup"
-        "wshobson/agents --skill code-review-excellence"
-        "kepano/obsidian-skills --skill defuddle"
-        "cursor/plugins --skill deslop"
-        "emilkowalski/skill --skill emil-design-eng"
-        "getsentry/sentry-agent-skills --skill sentry-fix-issues"
-        "anthropics/skills --skill skill-creator"
-        "railwayapp/railway-skills --skill use-railway"
-        "vercel-labs/skills --skill find-skills"
-    )
-
-    for entry in "${SKILLS[@]}"; do
-        skill_name="${entry##*--skill }"
-        if [ -d "$HOME/.agents/skills/$skill_name" ]; then
-            log_success "skill: $skill_name is already installed"
-        elif $DRY_RUN; then
-            log_warning "WOULD install skill: $skill_name"
-        else
-            log_info "Installing skill: $skill_name..."
-            if npx skills add -g $entry --agent claude-code -y 2>&1 | tail -1 | grep -q "Done"; then
-                log_success "skill: $skill_name installed"
-            else
-                log_warning "Failed to install skill: $skill_name"
-            fi
-        fi
-    done
-
-    log_success "Claude Code skills complete"
-else
-    log_warning "skills npm package not found — skipping Claude Code skills (run: npm install -g skills)"
-fi
-
-# ============================================================================
-# Claude Code Plugins
-# ============================================================================
-log_info "Installing Claude Code plugins..."
-
-if command -v claude &> /dev/null; then
-    # Add third-party marketplaces
-    MARKETPLACES=(
-        "jarrodwatts/claude-hud"
-        "pbakaus/impeccable"
-        "zackbart/motif"
-        "Lum1104/Understand-Anything"
-    )
-
-    for marketplace in "${MARKETPLACES[@]}"; do
-        if $DRY_RUN; then
-            log_warning "WOULD add marketplace: $marketplace"
-        else
-            claude plugin marketplace add "$marketplace" 2>/dev/null
-        fi
-    done
-
-    # Install plugins
-    PLUGINS=(
-        "claude-hud@claude-hud"
-        "context7@claude-plugins-official"
-        "impeccable@impeccable"
-        "motif@motif"
-        "understand-anything@understand-anything"
-    )
-
-    for plugin in "${PLUGINS[@]}"; do
-        if claude plugin list 2>/dev/null | grep -q "$plugin"; then
-            log_success "plugin: $plugin is already installed"
-        elif $DRY_RUN; then
-            log_warning "WOULD install plugin: $plugin"
-        else
-            log_info "Installing plugin: $plugin..."
-            if claude plugin install "$plugin" 2>&1; then
-                log_success "plugin: $plugin installed"
-            else
-                log_warning "Failed to install plugin: $plugin"
-            fi
-        fi
-    done
-
-    log_success "Claude Code plugins complete"
-else
-    log_warning "claude CLI not found — skipping Claude Code plugins"
-fi
+log_info "Claude Code skills and plugins are managed separately."
+log_info "  - Skills:  https://github.com/zackbart/skills"
+log_info "  - Plugins: https://github.com/zackbart/agent-plugins"
 
 # ============================================================================
 # Post-installation
@@ -521,12 +443,13 @@ log_success "Setup complete!"
 log_info "Restart your terminal or run 'source ~/.zshrc' to apply shell config."
 echo ""
 log_warning "Manual installs needed:"
-log_warning "  - DaVinci Resolve:  https://www.blackmagicdesign.com/products/davinciresolve"
-log_warning "  - Xcode:            Install from the App Store (or already installed via mas)"
-log_warning "  - Notchi:           https://lo.cafe/notchi"
-log_warning "  - Readout:          https://readout.app"
-log_warning "  - OpenPencil:       https://github.com/open-pencil/open-pencil"
-log_warning "  - OpenUsage:        https://github.com/robinebers/openusage"
-log_warning "  - FnMacAssistant:   https://github.com/isacucho/FnMacAssistant"
-log_warning "  - OpenOats:         https://github.com/yazinsai/OpenOats"
-log_warning "  - Clearly:          https://github.com/Shpigford/clearly"
+log_warning "  - DaVinci Resolve:      https://www.blackmagicdesign.com/products/davinciresolve"
+log_warning "  - Blackmagic RAW:       https://www.blackmagicdesign.com/products/blackmagicraw"
+log_warning "  - Chops:                Direct download"
+log_warning "  - Clearly:              https://github.com/Shpigford/clearly"
+log_warning "  - OpenOats:             https://github.com/yazinsai/OpenOats"
+log_warning "  - OpenUsage:            https://github.com/robinebers/openusage"
+log_warning "  - Unbreakable:          Direct download"
+log_warning "  - Shift:                Direct download"
+log_warning "  - Rust (rustup):        https://rustup.rs"
+log_warning "  - Bun:                  https://bun.sh"
