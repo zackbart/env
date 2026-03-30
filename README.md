@@ -1,6 +1,6 @@
 # env
 
-macOS setup script — Homebrew apps, CLI tools, fonts, and dotfiles.
+macOS setup script - Homebrew apps, CLI tools, fonts, and dotfiles.
 
 ## Quick Start
 
@@ -88,16 +88,16 @@ Amphetamine, Hidden Bar, WireGuard, TestFlight, Xcode
 
 ### Manual Installs
 
-- **DaVinci Resolve** — https://www.blackmagicdesign.com/products/davinciresolve
-- **Blackmagic RAW** — https://www.blackmagicdesign.com/products/blackmagicraw
-- **Chops** — Direct download
-- **Clearly** — https://github.com/Shpigford/clearly
-- **OpenOats** — https://github.com/yazinsai/OpenOats
-- **OpenUsage** — https://github.com/robinebers/openusage
-- **Unbreakable** — Direct download
-- **Shift** — Direct download
-- **Rust (rustup)** — https://rustup.rs
-- **Bun** — https://bun.sh
+- **DaVinci Resolve** - https://www.blackmagicdesign.com/products/davinciresolve
+- **Blackmagic RAW** - https://www.blackmagicdesign.com/products/blackmagicraw
+- **Chops** - Direct download
+- **Clearly** - https://github.com/Shpigford/clearly
+- **OpenOats** - https://github.com/yazinsai/OpenOats
+- **OpenUsage** - https://github.com/robinebers/openusage
+- **Unbreakable** - Direct download
+- **Shift** - Direct download
+- **Rust (rustup)** - https://rustup.rs
+- **Bun** - https://bun.sh
 
 ## Dry Run
 
@@ -117,7 +117,7 @@ Checks that all casks and formulas are available in Homebrew before you run setu
 
 ## Notes
 
-- Idempotent — safe to run multiple times
+- Idempotent - safe to run multiple times
 - Optimized for Apple Silicon
-- Some casks (Mullvad VPN, Send to Kindle, VB-Cable, WiFiman, Zoom) require sudo for pkg installers — brew will prompt for your password
+- Some casks (Mullvad VPN, Send to Kindle, VB-Cable, WiFiman, Zoom) require sudo for pkg installers - brew will prompt for your password
 - Restart your terminal after running to apply shell config
