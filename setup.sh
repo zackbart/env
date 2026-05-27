@@ -86,6 +86,16 @@ if ! $DRY_RUN; then
     brew tap yakitrak/yakitrak 2>/dev/null || true
     brew tap stripe/stripe-cli 2>/dev/null || true
     brew tap supabase/tap 2>/dev/null || true
+    brew tap anomalyco/tap 2>/dev/null || true
+    brew tap jundot/omlx 2>/dev/null || true
+    brew tap homebrew-ffmpeg/ffmpeg 2>/dev/null || true
+    brew tap fastrepl/fastrepl 2>/dev/null || true
+    brew tap kamillobinski/thock 2>/dev/null || true
+    brew tap phequals7/muesli 2>/dev/null || true
+    brew tap theboredteam/boring-notch 2>/dev/null || true
+    brew tap xykong/tap 2>/dev/null || true
+    brew tap pluk-inc/tap 2>/dev/null || true
+    brew tap momenbasel/tap 2>/dev/null || true
 fi
 
 # ============================================================================
@@ -99,27 +109,41 @@ CASK_APPS=(
 
     # Development
     "android-studio"
+    "android-commandlinetools"
     "docker-desktop"
+    "gcloud-cli"
     "ghostty"
     "lm-studio"
     "visual-studio-code"
+    "t3-code"
 
     # AI & Productivity
     "claude"
+    "char"
     "cmux"
+    "emdash"
     "obsidian"
     "notion-calendar"
-    "superset"
+
+    # Markdown
+    "flux-markdown"
+    "markdown-preview"
 
     # Utilities
     "appcleaner"
     "balenaetcher"
+    "boring-notch"
     "clop"
     "cyberduck"
     "handy"
+    "jordanbaird-ice"
     "localsend"
+    "muesli"
+    "puremac"
     "rustdesk"
     "send-to-kindle"
+    "thaw"
+    "thock"
     "wifiman"
 
     # Media
@@ -143,6 +167,7 @@ CASK_APPS=(
 
     # Database
     "beekeeper-studio"
+    "tablepro"
 
     # Gaming
     "heroic"
@@ -151,7 +176,6 @@ CASK_APPS=(
     "utm"
 
     # CLI tools distributed as casks
-    "claude-code"
     "codex"
     "cursor-cli"
 )
@@ -193,12 +217,18 @@ MAS_APPS=(
     "1451685025:WireGuard"
     "899247664:TestFlight"
     "497799835:Xcode"
+    "640199958:Apple Developer"
+    "1494023538:Plash"
+    "425264550:Blackmagic Disk Speed Test"
+    "409183694:Keynote"
+    "409203825:Numbers"
+    "409201541:Pages"
 )
 
 for entry in "${MAS_APPS[@]}"; do
     id="${entry%%:*}"
     name="${entry##*:}"
-    if mas list | grep -q "^$id "; then
+    if mas list | grep -qE "^[[:space:]]*${id}[[:space:]]"; then
         log_success "$name is already installed"
     elif $DRY_RUN; then
         log_warning "WOULD install from App Store: $name ($id)"
@@ -277,6 +307,7 @@ CLI_TOOLS=(
     "openjdk@17"
     "python@3.14"
     "uv"
+    "rust"
 
     # TypeScript & Python tooling
     "typescript"
@@ -288,9 +319,11 @@ CLI_TOOLS=(
     "duckdb"
 
     # Media processing
-    "ffmpeg"
+    "homebrew-ffmpeg/ffmpeg/ffmpeg"  # custom build with extra codecs
     "imagemagick"
     "sox"
+    "whisper-cpp"
+    "handbrake"               # CLI; handbrake-app cask is the GUI
 
     # Documents
     "pandoc"
@@ -317,17 +350,33 @@ CLI_TOOLS=(
 
     # Utilities
     "cloc"
+    "dust"
+    "mole"
     "happy-coder"
     "sevenzip"
-    "opencode"
+    "qrencode"
+    "summarize"
     "mas"
+
+    # AI coding agents
+    "anomalyco/tap/opencode"
+    "jundot/omlx/omlx"
+
+    # Apple / iOS dev
+    "xcodegen"
+    "libimobiledevice"
+    "asc"
+    "molten-vk"
+
+    # Google Workspace
+    "googleworkspace-cli"
 
     # Tap tools (steipete)
     "steipete/tap/imsg"
-    "steipete/tap/summarize"
 
     # Tap tools (zackbart)
     "zackbart/tap/cleenup"
+    "zackbart/tap/dbseer"
     "zackbart/tap/seer"
     "zackbart/tap/werk"
 
@@ -359,12 +408,14 @@ log_info "Installing global npm packages..."
 
 NPM_PACKAGES=(
     "@dbml/cli"
+    "@earendil-works/pi-coding-agent"
     "@googleworkspace/cli"
     "@steipete/bird"
     "agent-browser"
     "defuddle"
     "playwriter"
     "skills"
+    "wrangler"
 )
 
 for pkg in "${NPM_PACKAGES[@]}"; do
@@ -451,5 +502,5 @@ log_warning "  - OpenOats:             https://github.com/yazinsai/OpenOats"
 log_warning "  - OpenUsage:            https://github.com/robinebers/openusage"
 log_warning "  - Unbreakable:          Direct download"
 log_warning "  - Shift:                Direct download"
-log_warning "  - Rust (rustup):        https://rustup.rs"
+log_warning "  - Claude Code:          curl -fsSL https://claude.ai/install.sh | bash"
 log_warning "  - Bun:                  https://bun.sh"

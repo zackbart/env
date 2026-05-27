@@ -21,16 +21,17 @@ curl -fsSL https://raw.githubusercontent.com/zackbart/env/main/setup.sh -o /tmp/
 | Category | Apps |
 |----------|------|
 | Browsers | Chrome |
-| Development | Android Studio, Docker Desktop, Ghostty, LM Studio, VS Code |
-| AI & Productivity | Claude, cmux, Obsidian, Notion Calendar, Superset |
-| Utilities | AppCleaner, balenaEtcher, Clop, Cyberduck, Handy, LocalSend, RustDesk, Send to Kindle, WiFiman |
+| Development | Android Studio, Android Command-line Tools, Docker Desktop, gcloud CLI, Ghostty, LM Studio, VS Code, T3 Code |
+| AI & Productivity | Claude, Char, cmux, Emdash, Obsidian, Notion Calendar |
+| Markdown | FluxMarkdown, Markdown Preview |
+| Utilities | AppCleaner, balenaEtcher, Boring Notch, Clop, Cyberduck, Handy, Ice, LocalSend, Muesli, PureMac, RustDesk, Send to Kindle, Thaw, Thock, WiFiman |
 | Media | Anki, HandBrake, OBS, Spotify, VLC |
 | Networking | mitmproxy, Mullvad VPN, ngrok, Termius, Twingate, VB-Cable |
 | Communication | Discord, Zoom |
-| Database | Beekeeper Studio |
+| Database | Beekeeper Studio, TablePro |
 | Gaming | Heroic |
 | Virtualization | UTM |
-| CLI (cask) | Claude Code, Codex, Cursor CLI |
+| CLI (cask) | Codex, Cursor CLI |
 
 ### Fonts
 
@@ -48,21 +49,23 @@ curl -fsSL https://raw.githubusercontent.com/zackbart/env/main/setup.sh -o /tmp/
 | File managers | yazi, superfile |
 | Monitoring | bottom |
 | Docker | lazydocker |
-| Languages & runtimes | asdf, node, pnpm, go, openjdk@17, python@3.14, uv |
+| Languages & runtimes | asdf, node, pnpm, go, openjdk@17, python@3.14, uv, rust |
 | TypeScript & Python tooling | typescript, typescript-language-server, pyright |
 | Data | jq, duckdb |
-| Media | ffmpeg, imagemagick, sox |
+| Media | ffmpeg (homebrew-ffmpeg build), imagemagick, sox, whisper-cpp, handbrake |
 | Documents | pandoc, poppler |
-| Cloud & deploy | supabase, stripe, railway, firebase-cli, sentry-cli |
+| Cloud & deploy | supabase, stripe, railway, firebase-cli, sentry-cli, googleworkspace-cli |
 | Security | trufflehog, gnupg, certbot |
-| Images & rendering | chafa, resvg |
+| Images & rendering | chafa, resvg, qrencode |
 | Database client | libpq |
-| Utilities | cloc, happy-coder, sevenzip, opencode, mas |
-| Tap tools | imsg, summarize, cleenup, seer, werk, obsidian-cli |
+| Apple / iOS dev | xcodegen, libimobiledevice, asc, molten-vk |
+| AI coding agents | opencode, omlx |
+| Utilities | cloc, dust, mole, happy-coder, sevenzip, mas |
+| Tap tools | imsg, summarize, cleenup, dbseer, seer, werk, obsidian-cli |
 
 ### Global npm Packages
 
-@dbml/cli, @googleworkspace/cli, @steipete/bird, agent-browser, defuddle, playwriter, skills
+@dbml/cli, @earendil-works/pi-coding-agent, @googleworkspace/cli, @steipete/bird, agent-browser, defuddle, playwriter, skills, wrangler
 
 ### Claude Code Skills & Plugins
 
@@ -84,7 +87,7 @@ Existing files are backed up with a `.bak` extension.
 
 ### Mac App Store (via mas)
 
-Amphetamine, Hidden Bar, WireGuard, TestFlight, Xcode
+Amphetamine, Hidden Bar, WireGuard, TestFlight, Xcode, Apple Developer, Plash, Blackmagic Disk Speed Test, Keynote, Numbers, Pages
 
 ### Manual Installs
 
@@ -96,7 +99,7 @@ Amphetamine, Hidden Bar, WireGuard, TestFlight, Xcode
 - **OpenUsage** - https://github.com/robinebers/openusage
 - **Unbreakable** - Direct download
 - **Shift** - Direct download
-- **Rust (rustup)** - https://rustup.rs
+- **Claude Code** - `curl -fsSL https://claude.ai/install.sh | bash`
 - **Bun** - https://bun.sh
 
 ## Dry Run
