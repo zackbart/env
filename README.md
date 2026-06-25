@@ -1,4 +1,14 @@
-# env
+<p align="center">
+  <a href="https://github.com/zackbart/env">
+    <img src="https://shieldcn.dev/header/graph.svg?title=env&subtitle=macOS+setup+script+for+apps+CLI+tools+fonts+and+dotfiles&logo=homebrew&mode=light&align=center&font=geist-mono&border=false" alt="env">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/zackbart/env/stargazers">
+    <img src="https://shieldcn.dev/github/stars/zackbart/env.svg" alt="Stars">
+  </a>
+</p>
 
 macOS setup script - Homebrew apps, CLI tools, fonts, and dotfiles.
 
