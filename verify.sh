@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Verification script — checks all Homebrew casks and formulas exist before install
+# Keep the lists in sync with setup.sh
 
 echo "Verifying Homebrew casks and formulas..."
 echo ""
@@ -12,55 +13,44 @@ fi
 
 echo "Updating Homebrew and adding taps..."
 brew update > /dev/null 2>&1
-brew tap steipete/tap 2>/dev/null || true
 brew tap zackbart/tap 2>/dev/null || true
-brew tap yakitrak/yakitrak 2>/dev/null || true
 brew tap stripe/stripe-cli 2>/dev/null || true
 brew tap supabase/tap 2>/dev/null || true
 brew tap anomalyco/tap 2>/dev/null || true
-brew tap jundot/omlx 2>/dev/null || true
 brew tap homebrew-ffmpeg/ffmpeg 2>/dev/null || true
-brew tap fastrepl/fastrepl 2>/dev/null || true
-brew tap kamillobinski/thock 2>/dev/null || true
-brew tap phequals7/muesli 2>/dev/null || true
-brew tap theboredteam/boring-notch 2>/dev/null || true
-brew tap xykong/tap 2>/dev/null || true
 brew tap pluk-inc/tap 2>/dev/null || true
-brew tap momenbasel/tap 2>/dev/null || true
+brew tap cameroncooke/axe 2>/dev/null || true
+brew tap getsentry/xcodebuildmcp 2>/dev/null || true
+brew tap nubjs/tap 2>/dev/null || true
 
 CASK_APPS=(
     "google-chrome"
-    "android-studio"
     "android-commandlinetools"
     "docker-desktop"
     "gcloud-cli"
     "ghostty"
     "lm-studio"
-    "visual-studio-code"
     "t3-code"
     "claude"
-    "char"
-    "cmux"
-    "emdash"
-    "obsidian"
+    "fluidvoice"
+    "granola"
+    "notion"
     "notion-calendar"
-    "flux-markdown"
+    "obsidian"
+    "raycast"
+    "figma"
     "markdown-preview"
     "appcleaner"
     "balenaetcher"
-    "boring-notch"
     "clop"
-    "cyberduck"
-    "handy"
-    "jordanbaird-ice"
+    "loadout"
     "localsend"
-    "muesli"
+    "openusage"
     "puremac"
     "rustdesk"
-    "send-to-kindle"
-    "thaw"
-    "thock"
+    "stillcolor"
     "wifiman"
+    "windo"
     "anki"
     "handbrake-app"
     "obs"
@@ -69,14 +59,12 @@ CASK_APPS=(
     "mitmproxy"
     "mullvad-vpn"
     "ngrok"
-    "termius"
+    "tailscale-app"
     "twingate"
     "vb-cable"
     "discord"
     "zoom"
-    "beekeeper-studio"
     "tablepro"
-    "heroic"
     "utm"
     "codex"
     "cursor-cli"
@@ -97,62 +85,44 @@ CLI_TOOLS=(
     "difftastic"
     "gh"
     "lazygit"
-    "yazi"
-    "superfile"
     "bottom"
     "lazydocker"
-    "asdf"
     "node"
-    "pnpm"
+    "nubjs/tap/nub"
     "go"
     "openjdk@17"
-    "python@3.14"
     "uv"
-    "rust"
-    "typescript"
-    "typescript-language-server"
-    "pyright"
     "jq"
     "duckdb"
     "homebrew-ffmpeg/ffmpeg/ffmpeg"
     "imagemagick"
-    "sox"
-    "whisper-cpp"
     "handbrake"
     "pandoc"
-    "poppler"
     "supabase"
     "stripe"
     "railway"
     "firebase-cli"
-    "sentry-cli"
-    "trufflehog"
     "gnupg"
-    "certbot"
-    "chafa"
-    "resvg"
     "libpq"
     "cloc"
     "dust"
     "mole"
-    "happy-coder"
+    "herdr"
     "sevenzip"
-    "qrencode"
+    "summarize"
     "mas"
+    "agent-browser"
     "anomalyco/tap/opencode"
-    "jundot/omlx/omlx"
     "xcodegen"
     "libimobiledevice"
-    "asc"
     "molten-vk"
+    "cocoapods"
+    "cameroncooke/axe/axe"
+    "getsentry/xcodebuildmcp/xcodebuildmcp"
     "googleworkspace-cli"
-    "steipete/tap/imsg"
-    "summarize"
     "zackbart/tap/cleenup"
     "zackbart/tap/dbseer"
     "zackbart/tap/seer"
-    "zackbart/tap/werk"
-    "yakitrak/yakitrak/obsidian-cli"
 )
 
 echo "Checking casks..."

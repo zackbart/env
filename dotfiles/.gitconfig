@@ -1,3 +1,23 @@
 [user]
 	name = zackbart
 	email = zackerybartolome@gmail.com
+[init]
+	defaultBranch = main
+[push]
+	autoSetupRemote = true
+[fetch]
+	prune = true
+[pull]
+	ff = only
+[rerere]
+	enabled = true
+[diff]
+	algorithm = histogram
+[alias]
+	dft = -c diff.external=difft diff
+[credential "https://github.com"]
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential

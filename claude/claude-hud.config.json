@@ -1,0 +1,31 @@
+{
+  "lineLayout": "expanded",
+  "showSeparators": false,
+  "lines": [
+    ["path", "environment", "duration"],
+    ["context", "model", "git", "worktree"],
+    ["motif"]
+  ],
+  "display": {
+    "showModel": true,
+    "showContextBar": true,
+    "showTools": false,
+    "showAgents": false,
+    "showTodos": false,
+    "showProject": false,
+    "showConfigCounts": true,
+    "showTokenBreakdown": true,
+    "showSpeed": false,
+    "showUsage": false,
+    "showDuration": true,
+    "showSessionName": false,
+    "showMemoryUsage": false,
+    "showClaudeCodeVersion": false
+  },
+  "gitStatus": {
+    "enabled": true,
+    "showDirty": true,
+    "showAheadBehind": false,
+    "showFileStats": false
+  }
+}

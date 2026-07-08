@@ -10,7 +10,7 @@
   </a>
 </p>
 
-macOS setup script - Homebrew apps, CLI tools, fonts, and dotfiles.
+macOS setup script - Homebrew apps, CLI tools, fonts, and dotfiles. A curated baseline for new machines, not a mirror of any one machine.
 
 ## Quick Start
 
@@ -31,15 +31,15 @@ curl -fsSL https://raw.githubusercontent.com/zackbart/env/main/setup.sh -o /tmp/
 | Category | Apps |
 |----------|------|
 | Browsers | Chrome |
-| Development | Android Studio, Android Command-line Tools, Docker Desktop, gcloud CLI, Ghostty, LM Studio, VS Code, T3 Code |
-| AI & Productivity | Claude, Char, cmux, Emdash, Obsidian, Notion Calendar |
-| Markdown | FluxMarkdown, Markdown Preview |
-| Utilities | AppCleaner, balenaEtcher, Boring Notch, Clop, Cyberduck, Handy, Ice, LocalSend, Muesli, PureMac, RustDesk, Send to Kindle, Thaw, Thock, WiFiman |
+| Development | Android Command-line Tools, Docker Desktop, gcloud CLI, Ghostty, LM Studio, T3 Code |
+| AI & Productivity | Claude, FluidVoice, Granola, Notion, Notion Calendar, Obsidian, Raycast |
+| Design | Figma |
+| Markdown | Markdown Preview |
+| Utilities | AppCleaner, balenaEtcher, Clop, Loadout, LocalSend, OpenUsage, PureMac, RustDesk, Stillcolor, WiFiman, Windo |
 | Media | Anki, HandBrake, OBS, Spotify, VLC |
-| Networking | mitmproxy, Mullvad VPN, ngrok, Termius, Twingate, VB-Cable |
+| Networking | mitmproxy, Mullvad VPN, ngrok, Tailscale, Twingate, VB-Cable |
 | Communication | Discord, Zoom |
-| Database | Beekeeper Studio, TablePro |
-| Gaming | Heroic |
+| Database | TablePro |
 | Virtualization | UTM |
 | CLI (cask) | Codex, Cursor CLI |
 
@@ -56,44 +56,46 @@ curl -fsSL https://raw.githubusercontent.com/zackbart/env/main/setup.sh -o /tmp/
 | Shell & prompt | starship, zoxide, fzf, tmux |
 | Modern coreutils | bat, eza, fd, ripgrep, difftastic |
 | Git | gh, lazygit |
-| File managers | yazi, superfile |
 | Monitoring | bottom |
 | Docker | lazydocker |
-| Languages & runtimes | asdf, node, pnpm, go, openjdk@17, python@3.14, uv, rust |
-| TypeScript & Python tooling | typescript, typescript-language-server, pyright |
+| Languages & runtimes | node + [nub](https://nubjs.com) (the whole JS story - installs, scripts, dlx, globals, pinned versions), go, openjdk@17, uv (the whole Python story) |
 | Data | jq, duckdb |
-| Media | ffmpeg (homebrew-ffmpeg build), imagemagick, sox, whisper-cpp, handbrake |
-| Documents | pandoc, poppler |
-| Cloud & deploy | supabase, stripe, railway, firebase-cli, sentry-cli, googleworkspace-cli |
-| Security | trufflehog, gnupg, certbot |
-| Images & rendering | chafa, resvg, qrencode |
+| Media | ffmpeg (homebrew-ffmpeg build), imagemagick, handbrake |
+| Documents | pandoc |
+| Cloud & deploy | supabase, stripe, railway, firebase-cli, googleworkspace-cli |
+| Security | gnupg |
 | Database client | libpq |
-| Apple / iOS dev | xcodegen, libimobiledevice, asc, molten-vk |
-| AI coding agents | opencode, omlx |
-| Utilities | cloc, dust, mole, happy-coder, sevenzip, mas |
-| Tap tools | imsg, summarize, cleenup, dbseer, seer, werk, obsidian-cli |
+| Apple / iOS dev | xcodegen, libimobiledevice, molten-vk, cocoapods, axe, xcodebuildmcp |
+| AI coding agents | opencode |
+| Utilities | cloc, dust, mole, herdr, sevenzip, summarize, mas, agent-browser |
+| Tap tools (zackbart) | cleenup, dbseer, seer |
 
-### Global npm Packages
+### Global JS CLIs (via nub)
 
-@dbml/cli, @earendil-works/pi-coding-agent, @googleworkspace/cli, @steipete/bird, agent-browser, defuddle, playwriter, skills, wrangler
+skills, vercel, wrangler - installed with `nub add -g`, living in `~/Library/pnpm` decoupled from any Node version.
+
+### External Installers
+
+- **rustup** - the Rust toolchain (no brew `rust`)
+- **Claude Code** - native installer (`claude.ai/install.sh`)
 
 ### Claude Code Skills & Plugins
 
-Managed separately:
+Follow [`claude/SETUP.md`](claude/SETUP.md) - plugins (claude-hud, motif), the nub-powered claude-hud statusline, and global skills.
 
-- **Skills:** https://github.com/zackbart/skills
+- **Skills record:** https://github.com/zackbart/skills
 - **Plugins:** https://github.com/zackbart/agent-plugins
 
 ### Dotfiles
 
-The script symlinks these from `dotfiles/` to their proper locations:
+The script copies these from `dotfiles/` to their proper locations:
 
 - `.zshrc` → `~/.zshrc`
 - `.gitconfig` → `~/.gitconfig`
 - `starship.toml` → `~/.config/starship.toml`
 - `ghostty/config` → `~/.config/ghostty/config`
 
-Existing files are backed up with a `.bak` extension.
+Existing files that differ are backed up with a `.bak` extension. Machine-local secrets go in `~/.zshrc.local` (sourced if present, never committed).
 
 ### Mac App Store (via mas)
 
@@ -102,15 +104,10 @@ Amphetamine, Hidden Bar, WireGuard, TestFlight, Xcode, Apple Developer, Plash, B
 ### Manual Installs
 
 - **DaVinci Resolve** - https://www.blackmagicdesign.com/products/davinciresolve
-- **Blackmagic RAW** - https://www.blackmagicdesign.com/products/blackmagicraw
-- **Chops** - Direct download
-- **Clearly** - https://github.com/Shpigford/clearly
-- **OpenOats** - https://github.com/yazinsai/OpenOats
-- **OpenUsage** - https://github.com/robinebers/openusage
-- **Unbreakable** - Direct download
-- **Shift** - Direct download
-- **Claude Code** - `curl -fsSL https://claude.ai/install.sh | bash`
-- **Bun** - https://bun.sh
+- **Send to Kindle** - https://www.amazon.com/sendtokindle (brew cask disabled upstream)
+- **GatherV2** - direct download
+- **Paper** - direct download
+- **Supaste** - direct download
 
 ## Dry Run
 
@@ -132,5 +129,5 @@ Checks that all casks and formulas are available in Homebrew before you run setu
 
 - Idempotent - safe to run multiple times
 - Optimized for Apple Silicon
-- Some casks (Mullvad VPN, Send to Kindle, VB-Cable, WiFiman, Zoom) require sudo for pkg installers - brew will prompt for your password
+- Some casks (Mullvad VPN, Tailscale, VB-Cable, WiFiman, Zoom) require sudo for pkg installers - brew will prompt for your password
 - Restart your terminal after running to apply shell config

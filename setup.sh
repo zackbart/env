@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # macOS Setup Script
-# Installs Homebrew, apps, CLI tools, fonts, and links dotfiles
+# Installs Homebrew, apps, CLI tools, fonts, and copies dotfiles
 
 set -u
 
@@ -81,21 +81,15 @@ fi
 # ============================================================================
 log_info "Adding Homebrew taps..."
 if ! $DRY_RUN; then
-    brew tap steipete/tap 2>/dev/null || true
     brew tap zackbart/tap 2>/dev/null || true
-    brew tap yakitrak/yakitrak 2>/dev/null || true
     brew tap stripe/stripe-cli 2>/dev/null || true
     brew tap supabase/tap 2>/dev/null || true
     brew tap anomalyco/tap 2>/dev/null || true
-    brew tap jundot/omlx 2>/dev/null || true
     brew tap homebrew-ffmpeg/ffmpeg 2>/dev/null || true
-    brew tap fastrepl/fastrepl 2>/dev/null || true
-    brew tap kamillobinski/thock 2>/dev/null || true
-    brew tap phequals7/muesli 2>/dev/null || true
-    brew tap theboredteam/boring-notch 2>/dev/null || true
-    brew tap xykong/tap 2>/dev/null || true
     brew tap pluk-inc/tap 2>/dev/null || true
-    brew tap momenbasel/tap 2>/dev/null || true
+    brew tap cameroncooke/axe 2>/dev/null || true
+    brew tap getsentry/xcodebuildmcp 2>/dev/null || true
+    brew tap nubjs/tap 2>/dev/null || true
 fi
 
 # ============================================================================
@@ -108,43 +102,40 @@ CASK_APPS=(
     "google-chrome"
 
     # Development
-    "android-studio"
     "android-commandlinetools"
     "docker-desktop"
     "gcloud-cli"
     "ghostty"
     "lm-studio"
-    "visual-studio-code"
     "t3-code"
 
     # AI & Productivity
     "claude"
-    "char"
-    "cmux"
-    "emdash"
-    "obsidian"
+    "fluidvoice"
+    "granola"
+    "notion"
     "notion-calendar"
+    "obsidian"
+    "raycast"
+
+    # Design
+    "figma"
 
     # Markdown
-    "flux-markdown"
     "markdown-preview"
 
     # Utilities
     "appcleaner"
     "balenaetcher"
-    "boring-notch"
     "clop"
-    "cyberduck"
-    "handy"
-    "jordanbaird-ice"
+    "loadout"
     "localsend"
-    "muesli"
+    "openusage"
     "puremac"
     "rustdesk"
-    "send-to-kindle"
-    "thaw"
-    "thock"
+    "stillcolor"
     "wifiman"
+    "windo"
 
     # Media
     "anki"
@@ -157,7 +148,7 @@ CASK_APPS=(
     "mitmproxy"
     "mullvad-vpn"
     "ngrok"
-    "termius"
+    "tailscale-app"
     "twingate"
     "vb-cable"
 
@@ -166,11 +157,7 @@ CASK_APPS=(
     "zoom"
 
     # Database
-    "beekeeper-studio"
     "tablepro"
-
-    # Gaming
-    "heroic"
 
     # Virtualization
     "utm"
@@ -180,8 +167,10 @@ CASK_APPS=(
     "cursor-cli"
 )
 
+INSTALLED_CASKS=$(brew list --cask 2>/dev/null)
+
 for app in "${CASK_APPS[@]}"; do
-    if brew list --cask "$app" &> /dev/null 2>&1; then
+    if grep -qx "$app" <<< "$INSTALLED_CASKS"; then
         log_success "$app is already installed"
     elif $DRY_RUN; then
         log_warning "WOULD install cask: $app"
@@ -225,10 +214,12 @@ MAS_APPS=(
     "409201541:Pages"
 )
 
+INSTALLED_MAS=$(mas list 2>/dev/null)
+
 for entry in "${MAS_APPS[@]}"; do
     id="${entry%%:*}"
     name="${entry##*:}"
-    if mas list | grep -qE "^[[:space:]]*${id}[[:space:]]"; then
+    if grep -qE "^[[:space:]]*${id}[[:space:]]" <<< "$INSTALLED_MAS"; then
         log_success "$name is already installed"
     elif $DRY_RUN; then
         log_warning "WOULD install from App Store: $name ($id)"
@@ -256,7 +247,7 @@ FONTS=(
 )
 
 for font in "${FONTS[@]}"; do
-    if brew list --cask "$font" &> /dev/null 2>&1; then
+    if grep -qx "$font" <<< "$INSTALLED_CASKS"; then
         log_success "$font is already installed"
     elif $DRY_RUN; then
         log_warning "WOULD install font: $font"
@@ -289,10 +280,6 @@ CLI_TOOLS=(
     "gh"
     "lazygit"
 
-    # File managers
-    "yazi"
-    "superfile"
-
     # System monitoring
     "bottom"
 
@@ -300,19 +287,11 @@ CLI_TOOLS=(
     "lazydocker"
 
     # Languages & runtimes
-    "asdf"
-    "node"
-    "pnpm"
+    "node"                # system Node (nub provisions pinned versions per-project)
+    "nubjs/tap/nub"       # all-in-one JS toolkit: installs, scripts, dlx, globals, versions
     "go"
     "openjdk@17"
-    "python@3.14"
-    "uv"
-    "rust"
-
-    # TypeScript & Python tooling
-    "typescript"
-    "typescript-language-server"
-    "pyright"
+    "uv"                  # Python: interpreters, venvs, and tools all via uv
 
     # Data
     "jq"
@@ -321,29 +300,19 @@ CLI_TOOLS=(
     # Media processing
     "homebrew-ffmpeg/ffmpeg/ffmpeg"  # custom build with extra codecs
     "imagemagick"
-    "sox"
-    "whisper-cpp"
     "handbrake"               # CLI; handbrake-app cask is the GUI
 
     # Documents
     "pandoc"
-    "poppler"
 
     # Cloud & deploy
     "supabase"
     "stripe"
     "railway"
     "firebase-cli"
-    "sentry-cli"
 
     # Security
-    "trufflehog"
     "gnupg"
-    "certbot"
-
-    # Images & rendering
-    "chafa"
-    "resvg"
 
     # Database client
     "libpq"
@@ -352,40 +321,36 @@ CLI_TOOLS=(
     "cloc"
     "dust"
     "mole"
-    "happy-coder"
+    "herdr"
     "sevenzip"
-    "qrencode"
     "summarize"
     "mas"
+    "agent-browser"
 
     # AI coding agents
     "anomalyco/tap/opencode"
-    "jundot/omlx/omlx"
 
     # Apple / iOS dev
     "xcodegen"
     "libimobiledevice"
-    "asc"
     "molten-vk"
+    "cocoapods"
+    "cameroncooke/axe/axe"
+    "getsentry/xcodebuildmcp/xcodebuildmcp"
 
     # Google Workspace
     "googleworkspace-cli"
-
-    # Tap tools (steipete)
-    "steipete/tap/imsg"
 
     # Tap tools (zackbart)
     "zackbart/tap/cleenup"
     "zackbart/tap/dbseer"
     "zackbart/tap/seer"
-    "zackbart/tap/werk"
-
-    # Tap tools (other)
-    "yakitrak/yakitrak/obsidian-cli"
 )
 
+INSTALLED_FORMULAE=$(brew list --formula 2>/dev/null)
+
 for tool in "${CLI_TOOLS[@]}"; do
-    if brew list "$tool" &> /dev/null 2>&1; then
+    if grep -qx "${tool##*/}" <<< "$INSTALLED_FORMULAE"; then
         log_success "$tool is already installed"
     elif $DRY_RUN; then
         log_warning "WOULD install formula: $tool"
@@ -402,30 +367,24 @@ done
 log_success "CLI tools complete"
 
 # ============================================================================
-# Global npm Packages
+# Global JS CLIs (via nub)
 # ============================================================================
-log_info "Installing global npm packages..."
+log_info "Installing global JS CLIs with nub..."
 
-NPM_PACKAGES=(
-    "@dbml/cli"
-    "@earendil-works/pi-coding-agent"
-    "@googleworkspace/cli"
-    "@steipete/bird"
-    "agent-browser"
-    "defuddle"
-    "playwriter"
+NUB_GLOBALS=(
     "skills"
+    "vercel"
     "wrangler"
 )
 
-for pkg in "${NPM_PACKAGES[@]}"; do
-    if npm list -g "$pkg" &> /dev/null 2>&1; then
+for pkg in "${NUB_GLOBALS[@]}"; do
+    if command -v "$pkg" &> /dev/null || [ -x "$HOME/Library/pnpm/$pkg" ]; then
         log_success "$pkg is already installed"
     elif $DRY_RUN; then
-        log_warning "WOULD install npm package: $pkg"
+        log_warning "WOULD install global CLI: $pkg"
     else
         log_info "Installing $pkg..."
-        if npm install -g "$pkg" 2>&1; then
+        if nub add -g "$pkg" 2>&1; then
             log_success "$pkg installed"
         else
             log_warning "Failed to install $pkg"
@@ -433,14 +392,41 @@ for pkg in "${NPM_PACKAGES[@]}"; do
     fi
 done
 
-log_success "npm packages complete"
+log_success "global JS CLIs complete"
+
+# ============================================================================
+# External installers (not Homebrew)
+# ============================================================================
+log_info "Installing external tools..."
+
+# Rust toolchain via rustup
+if command -v rustup &> /dev/null || [ -x "$HOME/.cargo/bin/rustup" ]; then
+    log_success "rustup is already installed"
+elif $DRY_RUN; then
+    log_warning "WOULD install rustup"
+else
+    log_info "Installing rustup..."
+    curl --proto '=https' --tlsv1.2 -fsSL https://sh.rustup.rs | sh -s -- -y
+    log_success "rustup installed"
+fi
+
+# Claude Code (native installer)
+if command -v claude &> /dev/null || [ -x "$HOME/.local/bin/claude" ]; then
+    log_success "Claude Code is already installed"
+elif $DRY_RUN; then
+    log_warning "WOULD install Claude Code"
+else
+    log_info "Installing Claude Code..."
+    curl -fsSL https://claude.ai/install.sh | bash
+    log_success "Claude Code installed"
+fi
 
 # ============================================================================
 # Dotfiles
 # ============================================================================
-log_info "Linking dotfiles..."
+log_info "Copying dotfiles..."
 
-link_dotfile() {
+copy_dotfile() {
     local src="$1"
     local dest="$2"
 
@@ -453,33 +439,34 @@ link_dotfile() {
 
     if [ -L "$dest" ]; then
         rm "$dest"
-    elif [ -f "$dest" ]; then
+    elif [ -f "$dest" ] && ! cmp -s "$src" "$dest"; then
         mv "$dest" "${dest}.bak"
         log_warning "Backed up existing $dest to ${dest}.bak"
     fi
 
-    ln -s "$src" "$dest"
-    log_success "Linked $dest"
+    cp "$src" "$dest"
+    log_success "Copied $dest"
 }
 
 if $DRY_RUN; then
-    log_warning "WOULD link dotfiles/.zshrc -> ~/.zshrc"
-    log_warning "WOULD link dotfiles/.gitconfig -> ~/.gitconfig"
-    log_warning "WOULD link dotfiles/starship.toml -> ~/.config/starship.toml"
-    log_warning "WOULD link dotfiles/ghostty/config -> ~/.config/ghostty/config"
+    log_warning "WOULD copy dotfiles/.zshrc -> ~/.zshrc"
+    log_warning "WOULD copy dotfiles/.gitconfig -> ~/.gitconfig"
+    log_warning "WOULD copy dotfiles/starship.toml -> ~/.config/starship.toml"
+    log_warning "WOULD copy dotfiles/ghostty/config -> ~/.config/ghostty/config"
 else
-    link_dotfile "$SCRIPT_DIR/dotfiles/.zshrc"          "$HOME/.zshrc"
-    link_dotfile "$SCRIPT_DIR/dotfiles/.gitconfig"      "$HOME/.gitconfig"
-    link_dotfile "$SCRIPT_DIR/dotfiles/starship.toml"   "$HOME/.config/starship.toml"
-    link_dotfile "$SCRIPT_DIR/dotfiles/ghostty/config"  "$HOME/.config/ghostty/config"
+    copy_dotfile "$SCRIPT_DIR/dotfiles/.zshrc"          "$HOME/.zshrc"
+    copy_dotfile "$SCRIPT_DIR/dotfiles/.gitconfig"      "$HOME/.gitconfig"
+    copy_dotfile "$SCRIPT_DIR/dotfiles/starship.toml"   "$HOME/.config/starship.toml"
+    copy_dotfile "$SCRIPT_DIR/dotfiles/ghostty/config"  "$HOME/.config/ghostty/config"
 fi
 
 # ============================================================================
 # Claude Code Skills & Plugins
 # ============================================================================
-log_info "Claude Code skills and plugins are managed separately."
-log_info "  - Skills:  https://github.com/zackbart/skills"
-log_info "  - Plugins: https://github.com/zackbart/agent-plugins"
+log_info "Claude Code skills, plugins, and claude-hud statusline:"
+log_info "  - Follow claude/SETUP.md in this repo (agent-followable)"
+log_info "  - Skills record:  https://github.com/zackbart/skills"
+log_info "  - Plugins:        https://github.com/zackbart/agent-plugins"
 
 # ============================================================================
 # Post-installation
@@ -495,12 +482,10 @@ log_info "Restart your terminal or run 'source ~/.zshrc' to apply shell config."
 echo ""
 log_warning "Manual installs needed:"
 log_warning "  - DaVinci Resolve:      https://www.blackmagicdesign.com/products/davinciresolve"
-log_warning "  - Blackmagic RAW:       https://www.blackmagicdesign.com/products/blackmagicraw"
-log_warning "  - Chops:                Direct download"
-log_warning "  - Clearly:              https://github.com/Shpigford/clearly"
-log_warning "  - OpenOats:             https://github.com/yazinsai/OpenOats"
-log_warning "  - OpenUsage:            https://github.com/robinebers/openusage"
-log_warning "  - Unbreakable:          Direct download"
-log_warning "  - Shift:                Direct download"
-log_warning "  - Claude Code:          curl -fsSL https://claude.ai/install.sh | bash"
-log_warning "  - Bun:                  https://bun.sh"
+log_warning "  - Send to Kindle:       https://www.amazon.com/sendtokindle (brew cask disabled upstream)"
+log_warning "  - GatherV2:             direct download"
+log_warning "  - Paper:                direct download"
+log_warning "  - Supaste:              direct download"
+log_warning ""
+log_warning "Post-install:"
+log_warning "  - nub global bins live in ~/Library/pnpm (already on PATH via .zshrc)"

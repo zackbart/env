@@ -7,15 +7,8 @@ $git_branch\
 $git_status\
 $git_metrics\
 $nodejs\
-$bun\
 $python\
-$rust\
 $golang\
-$java\
-$ruby\
-$elixir\
-$php\
-$lua\
 $package\
 $container\
 $jobs\
@@ -69,18 +62,16 @@ min_time = 1000
 format = "[$symbol]($style)"
 style = "dimmed"
 symbol = " "
-detect_files = ["package.json", ".node-version"]
+detect_files = ["package.json", ".node-version", ".nvmrc"]
 detect_folders = ["node_modules"]
 
 [python]
-format = '[$symbol]($style)'
+format = '[$symbol($virtualenv )]($style)'
 style = "dimmed"
 symbol = " "
 
 [rust]
-format = "[$symbol]($style)"
-style = "dimmed"
-symbol = " "
+disabled = true
 
 [golang]
 format = "[$symbol]($style)"
@@ -88,34 +79,19 @@ style = "dimmed"
 symbol = " "
 
 [java]
-format = "[$symbol]($style)"
-style = "dimmed"
-symbol = " "
-
-[bun]
-format = "[$symbol]($style)"
-style = "dimmed"
-symbol = "󰛦 "
+disabled = true
 
 [ruby]
-format = "[$symbol]($style)"
-style = "dimmed"
-symbol = " "
+disabled = true
 
 [elixir]
-format = "[$symbol]($style)"
-style = "dimmed"
-symbol = " "
+disabled = true
 
 [php]
-format = "[$symbol]($style)"
-style = "dimmed"
-symbol = " "
+disabled = true
 
 [lua]
-format = "[$symbol]($style)"
-style = "dimmed"
-symbol = " "
+disabled = true
 
 [git_metrics]
 format = '([+$added]($added_style) )([-$deleted]($deleted_style) )'

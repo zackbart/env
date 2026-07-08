@@ -22,6 +22,8 @@ setopt PUSHD_SILENT
 setopt CDABLE_VARS
 
 # COMPLETION
+fpath=(/Users/zackbart/.docker/completions $fpath)
+[ -d ~/.grok/completions/zsh ] && fpath=(~/.grok/completions/zsh $fpath)
 autoload -Uz compinit
 if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
   compinit
@@ -49,19 +51,21 @@ bindkey '^[[H' beginning-of-line
 bindkey '^[[F' end-of-line
 
 # ENVIRONMENT
-export EDITOR='vim'
-export VISUAL='vim'
+export EDITOR='nano'
+export VISUAL='nano'
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export CLICOLOR=1
 export BAT_THEME="base16"
 
+# Enable claude.ai connectors (Gmail, Drive, Calendar, Bird/X) in Claude Code
+export ENABLE_CLAUDEAI_MCP_SERVERS=true
+
 # PATH
-export JAVA_HOME=/opt/homebrew/opt/openjdk
-export PATH="$JAVA_HOME/bin:$PATH"
-export PATH="$HOME/Dev/tools/build/darwin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
-export PATH="/opt/homebrew/bin:$PATH"
+export PATH="$HOME/Library/pnpm:$PATH"   # nub global bins
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+[ -d "$HOME/.grok/bin" ] && export PATH="$HOME/.grok/bin:$PATH"
 
 # ALIASES - Modern replacements
 alias ls='eza --icons=auto'
@@ -127,35 +131,30 @@ extract() {
   fi
 }
 
-# FZF
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# FZF (keybindings + completion from brew's fzf: Ctrl-R history, Ctrl-T files)
+command -v fzf &> /dev/null && source <(fzf --zsh)
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
-
-# GOOGLE CLOUD SDK (via Homebrew)
-[[ -f "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc" ]] && source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
-[[ -f "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc" ]] && source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
 
 # STARSHIP PROMPT
 eval "$(starship init zsh)"
 
-# bun completions
-[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
-
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:$HOME/.lmstudio/bin"
-# End of LM Studio CLI section
-
-# Alias for claude --dangerously-skip-permissions
-claude-bah() { claude --dangerously-skip-permissions "$@"; }
-
+# ALIASES - Custom
+cc() { claude --dangerously-skip-permissions "$@"; }
+cc-telegram() { claude --dangerously-skip-permissions --channels plugin:telegram@claude-plugins-official; }
+cc-imessage() { claude --dangerously-skip-permissions --channels plugin:imessage@claude-plugins-official; }
 alias vault="cd '$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/zackbart'"
+
+# Update brew, global JS CLIs, and global skills
+update() {
+  brew update
+  brew upgrade
+  nub up -g
+  skills update -g
+}
+
+# Machine-local secrets and private config (never committed)
+[ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"
 
 # ZOXIDE (smarter cd) — must be last
 export _ZO_DOCTOR=0
 eval "$(zoxide init --cmd cd zsh)"
-
