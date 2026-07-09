@@ -25,6 +25,7 @@ brew tap nubjs/tap 2>/dev/null || true
 
 CASK_APPS=(
     "google-chrome"
+    "helium-browser"
     "android-commandlinetools"
     "docker-desktop"
     "gcloud-cli"

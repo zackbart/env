@@ -1,0 +1,39 @@
+# Greyscale Dark - Optimized for Claude Code
+background = 262626
+foreground = e8e8e8
+cursor-color = e0e0e0
+cursor-text = 101010
+selection-background = 404040
+selection-foreground = ffffff
+
+# Black/dark grey
+palette = 0=#242424
+palette = 8=#4a4a4a
+
+# Red → warm grey
+palette = 1=#c0a0a0
+palette = 9=#d4b8b8
+
+# Green → cool grey
+palette = 2=#a0b0a0
+palette = 10=#b8c8b8
+
+# Yellow → light warm grey
+palette = 3=#c8c0a8
+palette = 11=#dcd4bc
+
+# Blue → cool mid grey
+palette = 4=#a0a8b8
+palette = 12=#b8c0d0
+
+# Magenta → purple-ish grey
+palette = 5=#b8a8b8
+palette = 13=#d0c0d0
+
+# Cyan → blue-ish grey
+palette = 6=#a0b8b8
+palette = 14=#b8d0d0
+
+# White/light grey
+palette = 7=#c8c8c8
+palette = 15=#f0f0f0

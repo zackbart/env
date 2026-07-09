@@ -100,6 +100,7 @@ log_info "Installing GUI applications..."
 CASK_APPS=(
     # Browsers
     "google-chrome"
+    "helium-browser"
 
     # Development
     "android-commandlinetools"
@@ -453,11 +454,15 @@ if $DRY_RUN; then
     log_warning "WOULD copy dotfiles/.gitconfig -> ~/.gitconfig"
     log_warning "WOULD copy dotfiles/starship.toml -> ~/.config/starship.toml"
     log_warning "WOULD copy dotfiles/ghostty/config -> ~/.config/ghostty/config"
+    log_warning "WOULD copy dotfiles/ghostty/themes/greyscale-light -> ~/.config/ghostty/themes/greyscale-light"
+    log_warning "WOULD copy dotfiles/ghostty/themes/greyscale-dark -> ~/.config/ghostty/themes/greyscale-dark"
 else
     copy_dotfile "$SCRIPT_DIR/dotfiles/.zshrc"          "$HOME/.zshrc"
     copy_dotfile "$SCRIPT_DIR/dotfiles/.gitconfig"      "$HOME/.gitconfig"
     copy_dotfile "$SCRIPT_DIR/dotfiles/starship.toml"   "$HOME/.config/starship.toml"
     copy_dotfile "$SCRIPT_DIR/dotfiles/ghostty/config"  "$HOME/.config/ghostty/config"
+    copy_dotfile "$SCRIPT_DIR/dotfiles/ghostty/themes/greyscale-light" "$HOME/.config/ghostty/themes/greyscale-light"
+    copy_dotfile "$SCRIPT_DIR/dotfiles/ghostty/themes/greyscale-dark"  "$HOME/.config/ghostty/themes/greyscale-dark"
 fi
 
 # ============================================================================
