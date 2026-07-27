@@ -29,7 +29,6 @@
     ],
     "defaultMode": "bypassPermissions"
   },
-  "model": "claude-fable-5[1m]",
   "disableBundledSkills": true,
   "hooks": {
     "PostToolUse": [
@@ -64,7 +63,6 @@
   },
   "enabledPlugins": {
     "claude-hud@agent-plugins": true,
-    "motif@agent-plugins": true,
     "context7@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
@@ -78,7 +76,7 @@
   },
   "effortLevel": "high",
   "skipDangerousModePermissionPrompt": true,
-  "theme": "light",
+  "theme": "auto",
   "agentPushNotifEnabled": false,
   "skipAutoPermissionPrompt": true,
   "voiceEnabled": false

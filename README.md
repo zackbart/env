@@ -30,15 +30,15 @@ curl -fsSL https://raw.githubusercontent.com/zackbart/env/main/setup.sh -o /tmp/
 
 | Category | Apps |
 |----------|------|
-| Browsers | Chrome |
-| Development | Android Command-line Tools, Docker Desktop, gcloud CLI, Ghostty, LM Studio, T3 Code |
-| AI & Productivity | Claude, FluidVoice, Granola, Notion, Notion Calendar, Obsidian, Raycast |
+| Browsers | Chrome, Helium |
+| Development | Android Command-line Tools, Docker Desktop, gcloud CLI, Ghostty, LM Studio, T3 Code (nightly) |
+| AI & Productivity | Buzz, Claude, FluidVoice, Granola, Notion, Notion Calendar, Obsidian |
 | Design | Figma |
 | Markdown | Markdown Preview |
-| Utilities | AppCleaner, balenaEtcher, Clop, Loadout, LocalSend, OpenUsage, PureMac, RustDesk, Stillcolor, WiFiman, Windo |
+| Utilities | AppCleaner, balenaEtcher, Barr, Clop, Loadout, LocalSend, OpenUsage, PureMac, RustDesk, Stillcolor, WiFiman, Windo |
 | Media | Anki, HandBrake, OBS, Spotify, VLC |
 | Networking | mitmproxy, Mullvad VPN, ngrok, Tailscale, Twingate, VB-Cable |
-| Communication | Discord, Zoom |
+| Communication & remote | Discord, Parsec, Zoom |
 | Database | TablePro |
 | Virtualization | UTM |
 | CLI (cask) | Codex, Cursor CLI |
@@ -74,6 +74,10 @@ curl -fsSL https://raw.githubusercontent.com/zackbart/env/main/setup.sh -o /tmp/
 
 skills, vercel, wrangler - installed with `nub add -g`, living in `~/Library/pnpm` decoupled from any Node version.
 
+### Global npm CLIs
+
+clerk - npm-only, so it goes in via `npm install -g`. Everything else that *can* come from Homebrew does (notably `agent-browser`: brew is the source of truth, don't also `npm i -g` it).
+
 ### External Installers
 
 - **rustup** - the Rust toolchain (no brew `rust`)
@@ -94,20 +98,31 @@ The script copies these from `dotfiles/` to their proper locations:
 - `.gitconfig` → `~/.gitconfig`
 - `starship.toml` → `~/.config/starship.toml`
 - `ghostty/config` → `~/.config/ghostty/config`
+- `ghostty/themes/greyscale-{light,dark}` → `~/.config/ghostty/themes/`
+- `AGENTS.md` → `~/AGENTS.md`, plus a `~/CLAUDE.md` → `AGENTS.md` symlink
+
+That last one is the global agent instruction file. One source, two names: Claude Code reads `~/CLAUDE.md`, Codex and opencode read `~/AGENTS.md`, and the symlink stops them drifting apart.
 
 Existing files that differ are backed up with a `.bak` extension. Machine-local secrets go in `~/.zshrc.local` (sourced if present, never committed).
 
+`~/.zprofile` (brew shellenv) and `~/.zshenv` (cargo env) are not tracked - the Homebrew and rustup installers regenerate them.
+
 ### Mac App Store (via mas)
 
-Amphetamine, Hidden Bar, WireGuard, TestFlight, Xcode, Apple Developer, Plash, Blackmagic Disk Speed Test, Keynote, Numbers, Pages
+Amphetamine, WireGuard, TestFlight, Xcode, Apple Developer, Plash, Blackmagic Disk Speed Test, Keynote, Numbers, Pages
 
 ### Manual Installs
 
-- **DaVinci Resolve** - https://www.blackmagicdesign.com/products/davinciresolve
+- **DaVinci Resolve** - https://www.blackmagicdesign.com/products/davinciresolve (also brings Blackmagic Proxy Generator + Blackmagic RAW)
 - **Send to Kindle** - https://www.amazon.com/sendtokindle (brew cask disabled upstream)
+- **Codex desktop app** - https://openai.com/codex (the `codex-app` cask is deprecated upstream; installs as `ChatGPT.app`, separate from the `codex` CLI cask)
 - **GatherV2** - direct download
 - **Paper** - direct download
 - **Supaste** - direct download
+
+### Not Handled Here
+
+Auth and state that has to be re-authed or hand-carried: `~/.ssh`, `~/.npmrc`, `~/.claude.json`, `~/.codex/auth.json`, `~/Library/Android/sdk`, and the gcloud/gh/supabase/stripe/railway/firebase logins.
 
 ## Dry Run
 

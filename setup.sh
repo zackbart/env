@@ -86,7 +86,6 @@ if ! $DRY_RUN; then
     brew tap supabase/tap 2>/dev/null || true
     brew tap anomalyco/tap 2>/dev/null || true
     brew tap homebrew-ffmpeg/ffmpeg 2>/dev/null || true
-    brew tap pluk-inc/tap 2>/dev/null || true
     brew tap cameroncooke/axe 2>/dev/null || true
     brew tap getsentry/xcodebuildmcp 2>/dev/null || true
     brew tap nubjs/tap 2>/dev/null || true
@@ -108,16 +107,16 @@ CASK_APPS=(
     "gcloud-cli"
     "ghostty"
     "lm-studio"
-    "t3-code"
+    "t3-code@nightly"
 
     # AI & Productivity
+    "block-buzz"
     "claude"
     "fluidvoice"
     "granola"
     "notion"
     "notion-calendar"
     "obsidian"
-    "raycast"
 
     # Design
     "figma"
@@ -128,6 +127,7 @@ CASK_APPS=(
     # Utilities
     "appcleaner"
     "balenaetcher"
+    "barr"
     "clop"
     "loadout"
     "localsend"
@@ -153,8 +153,9 @@ CASK_APPS=(
     "twingate"
     "vb-cable"
 
-    # Communication
+    # Communication & remote
     "discord"
+    "parsec"
     "zoom"
 
     # Database
@@ -203,7 +204,6 @@ fi
 # Format: "id:name"
 MAS_APPS=(
     "937984704:Amphetamine"
-    "1452453066:Hidden Bar"
     "1451685025:WireGuard"
     "899247664:TestFlight"
     "497799835:Xcode"
@@ -326,7 +326,7 @@ CLI_TOOLS=(
     "sevenzip"
     "summarize"
     "mas"
-    "agent-browser"
+    "agent-browser"          # brew is the source of truth — do not also npm i -g
 
     # AI coding agents
     "anomalyco/tap/opencode"
@@ -396,6 +396,33 @@ done
 log_success "global JS CLIs complete"
 
 # ============================================================================
+# Global npm CLIs
+# ============================================================================
+# These publish only to npm and aren't packaged for nub/Homebrew.
+log_info "Installing global npm CLIs..."
+
+NPM_GLOBALS=(
+    "clerk"
+)
+
+for pkg in "${NPM_GLOBALS[@]}"; do
+    if command -v "$pkg" &> /dev/null; then
+        log_success "$pkg is already installed"
+    elif $DRY_RUN; then
+        log_warning "WOULD install global npm CLI: $pkg"
+    else
+        log_info "Installing $pkg..."
+        if npm install -g "$pkg" 2>&1; then
+            log_success "$pkg installed"
+        else
+            log_warning "Failed to install $pkg"
+        fi
+    fi
+done
+
+log_success "global npm CLIs complete"
+
+# ============================================================================
 # External installers (not Homebrew)
 # ============================================================================
 log_info "Installing external tools..."
@@ -456,6 +483,7 @@ if $DRY_RUN; then
     log_warning "WOULD copy dotfiles/ghostty/config -> ~/.config/ghostty/config"
     log_warning "WOULD copy dotfiles/ghostty/themes/greyscale-light -> ~/.config/ghostty/themes/greyscale-light"
     log_warning "WOULD copy dotfiles/ghostty/themes/greyscale-dark -> ~/.config/ghostty/themes/greyscale-dark"
+    log_warning "WOULD copy dotfiles/AGENTS.md -> ~/AGENTS.md  (+ symlink ~/CLAUDE.md -> AGENTS.md)"
 else
     copy_dotfile "$SCRIPT_DIR/dotfiles/.zshrc"          "$HOME/.zshrc"
     copy_dotfile "$SCRIPT_DIR/dotfiles/.gitconfig"      "$HOME/.gitconfig"
@@ -463,6 +491,17 @@ else
     copy_dotfile "$SCRIPT_DIR/dotfiles/ghostty/config"  "$HOME/.config/ghostty/config"
     copy_dotfile "$SCRIPT_DIR/dotfiles/ghostty/themes/greyscale-light" "$HOME/.config/ghostty/themes/greyscale-light"
     copy_dotfile "$SCRIPT_DIR/dotfiles/ghostty/themes/greyscale-dark"  "$HOME/.config/ghostty/themes/greyscale-dark"
+
+    # Global agent instructions: one file, two names. Claude Code reads ~/CLAUDE.md,
+    # Codex/opencode read ~/AGENTS.md — the symlink keeps them from drifting.
+    copy_dotfile "$SCRIPT_DIR/dotfiles/AGENTS.md" "$HOME/AGENTS.md"
+    if [ ! -L "$HOME/CLAUDE.md" ]; then
+        [ -f "$HOME/CLAUDE.md" ] && mv "$HOME/CLAUDE.md" "$HOME/CLAUDE.md.bak" && log_warning "Backed up existing ~/CLAUDE.md"
+        ln -sfn AGENTS.md "$HOME/CLAUDE.md"
+        log_success "Linked ~/CLAUDE.md -> AGENTS.md"
+    else
+        log_success "~/CLAUDE.md symlink already in place"
+    fi
 fi
 
 # ============================================================================
@@ -487,10 +526,15 @@ log_info "Restart your terminal or run 'source ~/.zshrc' to apply shell config."
 echo ""
 log_warning "Manual installs needed:"
 log_warning "  - DaVinci Resolve:      https://www.blackmagicdesign.com/products/davinciresolve"
+log_warning "                          (also brings Blackmagic Proxy Generator + Blackmagic RAW)"
 log_warning "  - Send to Kindle:       https://www.amazon.com/sendtokindle (brew cask disabled upstream)"
+log_warning "  - Codex desktop app:    https://openai.com/codex (codex-app cask deprecated upstream;"
+log_warning "                          installs as ChatGPT.app — separate from the codex CLI cask above)"
 log_warning "  - GatherV2:             direct download"
 log_warning "  - Paper:                direct download"
 log_warning "  - Supaste:              direct download"
 log_warning ""
 log_warning "Post-install:"
 log_warning "  - nub global bins live in ~/Library/pnpm (already on PATH via .zshrc)"
+log_warning "  - Xcode needs a first launch + license accept before xcodebuild works"
+log_warning "  - Re-auth (not migrated): gcloud, gh, supabase, stripe, railway, firebase, npm"

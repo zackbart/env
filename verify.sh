@@ -18,7 +18,6 @@ brew tap stripe/stripe-cli 2>/dev/null || true
 brew tap supabase/tap 2>/dev/null || true
 brew tap anomalyco/tap 2>/dev/null || true
 brew tap homebrew-ffmpeg/ffmpeg 2>/dev/null || true
-brew tap pluk-inc/tap 2>/dev/null || true
 brew tap cameroncooke/axe 2>/dev/null || true
 brew tap getsentry/xcodebuildmcp 2>/dev/null || true
 brew tap nubjs/tap 2>/dev/null || true
@@ -31,18 +30,19 @@ CASK_APPS=(
     "gcloud-cli"
     "ghostty"
     "lm-studio"
-    "t3-code"
+    "t3-code@nightly"
+    "block-buzz"
     "claude"
     "fluidvoice"
     "granola"
     "notion"
     "notion-calendar"
     "obsidian"
-    "raycast"
     "figma"
     "markdown-preview"
     "appcleaner"
     "balenaetcher"
+    "barr"
     "clop"
     "loadout"
     "localsend"
@@ -64,6 +64,7 @@ CASK_APPS=(
     "twingate"
     "vb-cable"
     "discord"
+    "parsec"
     "zoom"
     "tablepro"
     "utm"

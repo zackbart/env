@@ -23,7 +23,6 @@ setopt CDABLE_VARS
 
 # COMPLETION
 fpath=(/Users/zackbart/.docker/completions $fpath)
-[ -d ~/.grok/completions/zsh ] && fpath=(~/.grok/completions/zsh $fpath)
 autoload -Uz compinit
 if [[ -n ~/.zcompdump(#qN.mh+24) ]]; then
   compinit
@@ -65,7 +64,6 @@ export ENABLE_CLAUDEAI_MCP_SERVERS=true
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/Library/pnpm:$PATH"   # nub global bins
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
-[ -d "$HOME/.grok/bin" ] && export PATH="$HOME/.grok/bin:$PATH"
 
 # ALIASES - Modern replacements
 alias ls='eza --icons=auto'

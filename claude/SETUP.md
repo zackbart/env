@@ -5,12 +5,15 @@ Agent-followable guide to restore the Claude Code environment on a new machine.
 
 ## 1. Plugins
 
-Two plugins, both from the `zackbart/agent-plugins` marketplace, installed at user scope:
+Two marketplaces: `zackbart/agent-plugins` (personal) and `claude-plugins-official` (bundled).
 
-| Plugin | What it is |
-|--------|------------|
-| `claude-hud` | Statusline HUD (context bar, model, git, motif stage) |
-| `motif` | Personal dev workflow orchestrator (Research → Plan → Build → Validate) |
+| Plugin | Marketplace | Scope | Enabled | What it is |
+|--------|-------------|-------|---------|------------|
+| `claude-hud` | agent-plugins | user | yes | Statusline HUD (context bar, model, git, motif stage) |
+| `motif` | agent-plugins | user | **no** | Dev workflow orchestrator (Research → Plan → Build → Validate) — installed but currently disabled |
+| `context7` | official | user | yes | Live library docs MCP |
+| `vercel` | official | local (`~`) | — | Vercel tooling |
+| `plugin-dev` | official | local (`~`) | — | Plugin authoring helpers |
 
 Inside a Claude Code session:
 
@@ -18,7 +21,13 @@ Inside a Claude Code session:
 /plugin marketplace add zackbart/agent-plugins
 /plugin install claude-hud@agent-plugins
 /plugin install motif@agent-plugins
+/plugin install context7@claude-plugins-official
+/plugin install vercel@claude-plugins-official
+/plugin install plugin-dev@claude-plugins-official
 ```
+
+`settings.json` (section 4) decides which are actually *enabled* — restoring it leaves
+`motif` installed but off, matching the current machine.
 
 ## 2. claude-hud statusline
 
@@ -55,19 +64,25 @@ Installed globally via the [`skills`](https://github.com/vercel-labs/skills) CLI
 |-------|--------|
 | `agent-browser` | vercel-labs/agent-browser |
 | `frontend-design` | anthropics/skills |
-| `grill-me` | zackbart/skills |
-| `info-html` | zackbart/skills |
-| `scratch-html` | zackbart/skills |
+| `confer` | zackbart/skills (`agent-tools/confer`) |
+| `info-html` | zackbart/skills (`preferences/info-html`) |
+| `models` | zackbart/skills (`agent-tools/models`) |
+| `scratch-html` | zackbart/skills (`agent-tools/scratch-html`) |
+| `grill-me` | mattpocock/skills (`skills/productivity/grill-me`) |
+| `i-have-adhd` | ayghri/i-have-adhd |
 
 ```bash
 skills add vercel-labs/agent-browser -g -y
 skills add anthropics/skills@frontend-design -g -y
-skills add zackbart/skills -g -y   # grill-me, info-html, scratch-html
+skills add zackbart/skills -g -y            # confer, info-html, models, scratch-html
+skills add mattpocock/skills@grill-me -g -y
+skills add ayghri/i-have-adhd -g -y
 ```
 
-The canonical record of skills (and their sources) lives in
-[zackbart/skills](https://github.com/zackbart/skills) — check it before trusting
-the table above, and keep them in sync.
+Skills install into `~/.agents/skills/` and are symlinked into `~/.claude/skills/`.
+`~/.agents/.skill-lock.json` is the authoritative record of what's installed and where
+each one came from — trust it over this table, and keep the two in sync.
+The personal ones also live in [zackbart/skills](https://github.com/zackbart/skills).
 
 ## 4. settings.json
 
@@ -81,11 +96,11 @@ What's in it (so you know what you're restoring):
 
 - `env` — adaptive thinking off, auto-memory off, no-flicker, subagent model inherits
 - `permissions.defaultMode: bypassPermissions` + a deny list (notifications, cron, SendMessage, …)
-- `model: claude-fable-5[1m]`, `effortLevel: high`
-- `disableBundledSkills`, `disableArtifact`, `theme: light`, voice/push off
+- no `model` pin (rides the CLI default), `effortLevel: high`
+- `disableBundledSkills`, `disableArtifact`, `theme: auto`, voice/push off
 - `hooks` — `PostToolUse`/ExitPlanMode → `~/.claude/hooks/plan-review.sh`; `SessionStart` → `~/.claude/hooks/herdr-agent-state.sh`
 - `statusLine` — the nub command from section 2
-- `enabledPlugins` — claude-hud, motif (agent-plugins) + context7 (official)
+- `enabledPlugins` — claude-hud (agent-plugins) + context7 (official)
 - `extraKnownMarketplaces` — zackbart/agent-plugins with autoUpdate
 
 The two hook scripts are snapshotted in [`hooks/`](hooks/) — restore alongside:
@@ -98,5 +113,10 @@ Re-snapshot `settings.json`, `hooks/`, and `claude-hud.config.json` here wheneve
 
 ## 5. The rest
 
-- `~/.claude/CLAUDE.md` — user-level instructions; copy from the old machine.
-- MCP servers — per-project via the `mcp-sync` skill (`MCP.md` at each repo root).
+- **Global agent instructions** — handled by `setup.sh`, not this file. It copies
+  `dotfiles/AGENTS.md` → `~/AGENTS.md` and symlinks `~/CLAUDE.md` → `AGENTS.md`, so
+  Claude Code and the Codex/opencode side read the same file.
+- **MCP servers** — no user-scope servers. Per-project only (`paper`, `xcodebuild` in the
+  iOS repos), managed via the `mcp-sync` skill / `MCP.md` at each repo root.
+- **`~/.claude.json`** — auth, onboarding state, per-project MCP config. Contains live
+  tokens; never commit it. Carry it over by hand or just re-auth.
