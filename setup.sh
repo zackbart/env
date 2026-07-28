@@ -481,16 +481,23 @@ if $DRY_RUN; then
     log_warning "WOULD copy dotfiles/.gitconfig -> ~/.gitconfig"
     log_warning "WOULD copy dotfiles/starship.toml -> ~/.config/starship.toml"
     log_warning "WOULD copy dotfiles/ghostty/config -> ~/.config/ghostty/config"
-    log_warning "WOULD copy dotfiles/ghostty/themes/greyscale-light -> ~/.config/ghostty/themes/greyscale-light"
-    log_warning "WOULD copy dotfiles/ghostty/themes/greyscale-dark -> ~/.config/ghostty/themes/greyscale-dark"
+    for theme in "$SCRIPT_DIR"/dotfiles/ghostty/themes/*; do
+        [ -f "$theme" ] || continue
+        log_warning "WOULD copy dotfiles/ghostty/themes/$(basename "$theme") -> ~/.config/ghostty/themes/$(basename "$theme")"
+    done
     log_warning "WOULD copy dotfiles/AGENTS.md -> ~/AGENTS.md  (+ symlink ~/CLAUDE.md -> AGENTS.md)"
 else
     copy_dotfile "$SCRIPT_DIR/dotfiles/.zshrc"          "$HOME/.zshrc"
     copy_dotfile "$SCRIPT_DIR/dotfiles/.gitconfig"      "$HOME/.gitconfig"
     copy_dotfile "$SCRIPT_DIR/dotfiles/starship.toml"   "$HOME/.config/starship.toml"
     copy_dotfile "$SCRIPT_DIR/dotfiles/ghostty/config"  "$HOME/.config/ghostty/config"
-    copy_dotfile "$SCRIPT_DIR/dotfiles/ghostty/themes/greyscale-light" "$HOME/.config/ghostty/themes/greyscale-light"
-    copy_dotfile "$SCRIPT_DIR/dotfiles/ghostty/themes/greyscale-dark"  "$HOME/.config/ghostty/themes/greyscale-dark"
+
+    # Every custom theme in the repo ships, so adding one is just dropping a file
+    # in dotfiles/ghostty/themes/ - no edit here.
+    for theme in "$SCRIPT_DIR"/dotfiles/ghostty/themes/*; do
+        [ -f "$theme" ] || continue
+        copy_dotfile "$theme" "$HOME/.config/ghostty/themes/$(basename "$theme")"
+    done
 
     # Global agent instructions: one file, two names. Claude Code reads ~/CLAUDE.md,
     # Codex/opencode read ~/AGENTS.md — the symlink keeps them from drifting.

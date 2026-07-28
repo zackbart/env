@@ -98,7 +98,7 @@ The script copies these from `dotfiles/` to their proper locations:
 - `.gitconfig` → `~/.gitconfig`
 - `starship.toml` → `~/.config/starship.toml`
 - `ghostty/config` → `~/.config/ghostty/config`
-- `ghostty/themes/greyscale-{light,dark}` → `~/.config/ghostty/themes/`
+- `ghostty/themes/*` → `~/.config/ghostty/themes/` (every file in the dir: `greyscale-{light,dark}`, `catppuccin-{latte,mocha}`)
 - `AGENTS.md` → `~/AGENTS.md`, plus a `~/CLAUDE.md` → `AGENTS.md` symlink
 
 That last one is the global agent instruction file. One source, two names: Claude Code reads `~/CLAUDE.md`, Codex and opencode read `~/AGENTS.md`, and the symlink stops them drifting apart.
