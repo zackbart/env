@@ -45,9 +45,16 @@ curl -fsSL https://raw.githubusercontent.com/zackbart/env/main/setup.sh -o /tmp/
 
 ### Fonts
 
+Homebrew casks:
+
 - JetBrains Mono
 - JetBrains Mono Nerd Font
 - Symbols Only Nerd Font
+
+Faces with no cask are vendored in [`fonts/`](fonts/) and copied to
+`~/Library/Fonts`. Every file there ships, so adding one is just dropping it in.
+Run `./fonts/sync.sh` to pull any newly installed user fonts back into the repo —
+it skips anything Homebrew already owns.
 
 ### CLI Tools (Homebrew Formulae)
 

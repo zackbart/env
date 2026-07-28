@@ -512,6 +512,35 @@ else
 fi
 
 # ============================================================================
+# User Fonts (not available via Homebrew)
+# ============================================================================
+# Everything in fonts/ ships, so adding a face is just dropping the file in -
+# no edit here. Homebrew-managed faces (JetBrains Mono, Symbols Nerd Font) are
+# installed above as casks and must NOT be duplicated here.
+log_info "Installing user fonts..."
+
+if $DRY_RUN; then
+    for font in "$SCRIPT_DIR"/fonts/*.{otf,ttf,ttc,woff2}; do
+        [ -f "$font" ] || continue
+        log_warning "WOULD copy fonts/$(basename "$font") -> ~/Library/Fonts/$(basename "$font")"
+    done
+else
+    shopt -s nullglob
+    font_count=0
+    for font in "$SCRIPT_DIR"/fonts/*.{otf,ttf,ttc,woff2}; do
+        [ -f "$font" ] || continue
+        copy_dotfile "$font" "$HOME/Library/Fonts/$(basename "$font")"
+        font_count=$((font_count + 1))
+    done
+    shopt -u nullglob
+    if [ "$font_count" -eq 0 ]; then
+        log_warning "No user fonts found in fonts/ — see fonts/README.md"
+    else
+        log_success "$font_count user font(s) installed"
+    fi
+fi
+
+# ============================================================================
 # Claude Code Skills & Plugins
 # ============================================================================
 log_info "Claude Code skills, plugins, and claude-hud statusline:"
