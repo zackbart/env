@@ -45,16 +45,30 @@ curl -fsSL https://raw.githubusercontent.com/zackbart/env/main/setup.sh -o /tmp/
 
 ### Fonts
 
-Homebrew casks:
+Homebrew casks - these account for 132 of the files in `~/Library/Fonts`:
 
 - JetBrains Mono
 - JetBrains Mono Nerd Font
 - Symbols Only Nerd Font
 
-Faces with no cask are vendored in [`fonts/`](fonts/) and copied to
-`~/Library/Fonts`. Every file there ships, so adding one is just dropping it in.
-Run `./fonts/sync.sh` to pull any newly installed user fonts back into the repo —
-it skips anything Homebrew already owns.
+Faces with no cask are vendored in [`fonts/`](fonts/) and copied to `~/Library/Fonts`:
+
+- Ace Sans (demo)
+- FFF Acid Grotesk Soft (variable)
+- Garnet Capitals Black
+
+The script globs `*.otf`, `*.ttf`, `*.ttc`, `*.woff2` from that directory, so
+adding a face is just dropping the file in - no list to edit. To go the other
+way and pull user fonts off a machine back into the repo:
+
+```bash
+./fonts/sync.sh --dry-run   # list what it would copy
+./fonts/sync.sh             # copy them in
+```
+
+It diffs `~/Library/Fonts` against the cask artifact lists and skips anything
+Homebrew already owns. See [`fonts/README.md`](fonts/README.md) for the
+licensing rule - this repo is public, so only redistributable faces belong here.
 
 ### CLI Tools (Homebrew Formulae)
 
